@@ -54,16 +54,16 @@ NewsGraph AI is built on a modern, scalable stack:
 
 ```mermaid
 graph TD
-    User[User] --> UI[Next.js Client UI]
-    UI --> Server[Server Actions]
-    Server --> NewsAPI[NewsAPI.org]
-    Server --> VectorDB[In-Memory Vector Store]
-    Server --> LLM[Groq (Llama 3.1)]
-    
-    NewsAPI -->|Raw Articles| Server
-    Server -->|Embeddings| VectorDB
-    VectorDB -->|Context| LLM
-    LLM -->|Briefing/Chat| UI
+  User[User] --> UI["Next.js Client UI"]
+  UI --> Server["Server Actions"]
+  Server --> NewsAPI["NewsAPI.org"]
+  Server --> VectorDB["In-Memory Vector Store"]
+  Server --> LLM["Groq (Llama 3.1)"]
+
+  NewsAPI -->|Raw Articles| Server
+  Server -->|Embeddings| VectorDB
+  VectorDB -->|Context| LLM
+  LLM -->|Briefing / Chat| UI
 ```
 
 *   **Frontend**: Next.js 15 (App Router) with React 19.
@@ -199,5 +199,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-
-*Built with ❤️ by [Your Name]*
