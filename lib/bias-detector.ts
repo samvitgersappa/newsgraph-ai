@@ -105,6 +105,28 @@ const BIAS_MAP: Record<string, BiasRating> = {
     'polygon': 'center-left',
     'kotaku': 'center-left',
 
+    // Business/Finance
+    'cnbc': 'center',
+    'business insider': 'center-left',
+    'fortune': 'center',
+
+    // Entertainment/Sports
+    'variety': 'center',
+    'the hollywood reporter': 'center',
+    'hollywood reporter': 'center',
+    '247sports': 'center',
+    'athlon sports': 'center',
+    'neworleanssaints.com': 'center',
+    'gamesindustry.biz': 'center',
+    'ign': 'center',
+    'gamespot': 'center',
+    
+    // Tech additions
+    '9to5google': 'center',
+    '9to5mac': 'center',
+    'android authority': 'center',
+    'android central': 'center',
+
     // International
     'al jazeera': 'center-left',
     'al jazeera english': 'center-left',

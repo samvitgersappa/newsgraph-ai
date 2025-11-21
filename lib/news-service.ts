@@ -44,14 +44,30 @@ export async function getTopHeadlines(category: string = 'general'): Promise<Art
   }
 }
 
-export async function searchNews(query: string): Promise<Article[]> {
+export interface SearchOptions {
+  sortBy?: 'relevancy' | 'popularity' | 'publishedAt';
+  from?: string;
+  to?: string;
+  language?: string;
+}
+
+export async function searchNews(query: string, options: SearchOptions = {}): Promise<Article[]> {
   if (!NEWS_API_KEY) return MOCK_ARTICLES;
 
+  const {
+    sortBy = 'relevancy',
+    language = 'en',
+    from,
+    to
+  } = options;
+
   try {
-    const res = await fetch(
-      `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&apiKey=${NEWS_API_KEY}`,
-      { next: { revalidate: 3600 } }
-    );
+    let url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&apiKey=${NEWS_API_KEY}&language=${language}&sortBy=${sortBy}`;
+    
+    if (from) url += `&from=${from}`;
+    if (to) url += `&to=${to}`;
+
+    const res = await fetch(url, { next: { revalidate: 3600 } });
 
     if (!res.ok) throw new Error(`News API error: ${res.statusText}`);
 
