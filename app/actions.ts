@@ -1,16 +1,40 @@
 'use server';
 
 import { findRelatedArticles } from '@/lib/rag-engine';
+import { searchNews } from '@/lib/news-service';
 import { Document } from '@langchain/core/documents';
 import { ChatGroq } from '@langchain/groq';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 
 export async function getRelatedContext(query: string) {
+    // 1. Try to find related articles in the local RAG index first
     const results = await findRelatedArticles(query, 5);
-    return results.map((doc: Document) => ({
-        content: doc.pageContent,
-        metadata: doc.metadata,
-    }));
+    
+    if (results.length > 0) {
+        return results.map((doc: Document) => ({
+            content: doc.pageContent,
+            metadata: doc.metadata,
+        }));
+    }
+
+    // 2. Fallback: If local index is empty (common in serverless/dev), fetch fresh news
+    console.log("RAG index empty, fetching fresh context for graph...");
+    try {
+        const freshArticles = await searchNews(query);
+        return freshArticles.slice(0, 5).map(article => ({
+            content: article.description || article.title,
+            metadata: {
+                title: article.title,
+                url: article.url,
+                source: article.source.name,
+                publishedAt: article.publishedAt,
+                urlToImage: article.urlToImage
+            }
+        }));
+    } catch (error) {
+        console.error("Error fetching fallback news:", error);
+        return [];
+    }
 }
 
 export async function generateBriefingAction(topic: string) {
