@@ -13,6 +13,9 @@
     "@langchain/core": "^1.0.6",
     "@langchain/groq": "^1.0.1",
     "@langchain/openai": "^1.1.2",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.0",
+    "@types/three": "^0.181.0",
     "clsx": "^2.1.1",
     "d3-array": "^3.2.4",
     "d3-scale": "^4.0.2",
@@ -27,7 +30,8 @@
     "react-markdown": "^10.1.0",
     "react-zoom-pan-pinch": "^3.7.0",
     "sentiment": "^5.0.2",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "three": "^0.181.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

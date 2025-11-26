@@ -5,10 +5,12 @@ import { NewsFeed } from '@/components/NewsFeed';
 import { DeepDiveSidebar } from '@/components/DeepDiveSidebar';
 import { PersonalBriefing } from '@/components/PersonalBriefing';
 import { BiasHeatMap } from '@/components/BiasHeatMap';
+import { RAG3DView } from '@/components/RAG3DView';
+import { RAGInsightsPanel } from '@/components/RAGInsightsPanel';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Brain, Sparkles, BarChart3 } from 'lucide-react';
 
 interface ClientPageProps {
     initialArticles: Article[];
@@ -17,6 +19,8 @@ interface ClientPageProps {
 export function ClientPage({ initialArticles }: ClientPageProps) {
     const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
     const [showBiasMap, setShowBiasMap] = useState(true);
+    const [showRAG3D, setShowRAG3D] = useState(true);
+    const [showRAGInsights, setShowRAGInsights] = useState(false);
 
     return (
         <div className="min-h-screen relative overflow-hidden bg-white dark:bg-[#1c1c1c] selection:bg-[#00D166]/30 transition-colors duration-300">
@@ -78,6 +82,74 @@ export function ClientPage({ initialArticles }: ClientPageProps) {
 
                 <section className="mb-16">
                     <PersonalBriefing />
+                </section>
+
+                {/* 3D RAG Knowledge Graph Section */}
+                <section className="mb-16">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-[#00D166] flex items-center justify-center">
+                                <Brain className="w-6 h-6 text-[#1c1c1c]" />
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-bold text-[#1c1c1c] dark:text-white uppercase tracking-wide flex items-center gap-2">
+                                    RAG Knowledge Graph
+                                    <Sparkles className="w-5 h-5 text-[#00D166]" />
+                                </h2>
+                                <p className="text-xs text-[#71767A] mt-0.5 uppercase tracking-wider">Interactive 3D visualization of document retrieval</p>
+                            </div>
+                        </div>
+                        <button
+                            onClick={() => setShowRAG3D(!showRAG3D)}
+                            className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-[#1c1c1c] dark:text-white bg-[#E7E7E7] dark:bg-[#2a2a2a] border-2 border-[#1c1c1c] dark:border-white/20 hover:bg-[#00D166] hover:text-[#1c1c1c] hover:border-[#00D166] transition-all uppercase tracking-wider"
+                        >
+                            {showRAG3D ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                            {showRAG3D ? 'Hide' : 'Show'}
+                        </button>
+                    </div>
+                    {showRAG3D && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="border-2 border-[#3a3a3a] overflow-hidden"
+                        >
+                            <RAG3DView />
+                        </motion.div>
+                    )}
+                </section>
+
+                {/* RAG Insights Panel Section */}
+                <section className="mb-16">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-[#FA3E3E] flex items-center justify-center">
+                                <BarChart3 className="w-6 h-6 text-white" />
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-bold text-[#1c1c1c] dark:text-white uppercase tracking-wide flex items-center gap-2">
+                                    RAG Scoring Analysis
+                                </h2>
+                                <p className="text-xs text-[#71767A] mt-0.5 uppercase tracking-wider">Multi-signal document ranking breakdown</p>
+                            </div>
+                        </div>
+                        <button
+                            onClick={() => setShowRAGInsights(!showRAGInsights)}
+                            className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-[#1c1c1c] dark:text-white bg-[#E7E7E7] dark:bg-[#2a2a2a] border-2 border-[#1c1c1c] dark:border-white/20 hover:bg-[#00D166] hover:text-[#1c1c1c] hover:border-[#00D166] transition-all uppercase tracking-wider"
+                        >
+                            {showRAGInsights ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                            {showRAGInsights ? 'Hide' : 'Show'}
+                        </button>
+                    </div>
+                    {showRAGInsights && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                        >
+                            <RAGInsightsPanel />
+                        </motion.div>
+                    )}
                 </section>
 
                 {/* Political Bias Heat Map Section */}

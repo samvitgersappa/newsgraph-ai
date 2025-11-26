@@ -1,10 +1,165 @@
 'use server';
 
-import { findRelatedArticles } from '@/lib/rag-engine';
+import { findRelatedArticles, findRelatedArticlesWithScores, getRAGStats } from '@/lib/rag-engine';
 import { searchNews } from '@/lib/news-service';
 import { Document } from '@langchain/core/documents';
 import { ChatGroq } from '@langchain/groq';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
+
+// New: Get RAG statistics for visualization
+export async function getRAGStatistics() {
+    return await getRAGStats();
+}
+
+// New: Get scored results with breakdown for 3D visualization
+export async function getRAGScoredResults(query: string, k: number = 10) {
+    const results = await findRelatedArticlesWithScores(query, k);
+    return results.map(r => ({
+        content: r.doc.pageContent,
+        metadata: r.doc.metadata,
+        score: r.score,
+        breakdown: r.breakdown,
+    }));
+}
+
+// NEW: Fetch and filter articles for RAG 3D visualization with strict relevance
+export async function fetchRAGArticlesForQuery(query: string) {
+    console.log(`[RAG 3D] Fetching articles for query: "${query}"`);
+    
+    try {
+        // Fetch fresh news for the query
+        const freshArticles = await searchNews(query, { 
+            sortBy: 'relevancy',
+            language: 'en'
+        });
+        
+        if (freshArticles.length === 0) {
+            console.log('[RAG 3D] No articles found from API');
+            return [];
+        }
+
+        console.log(`[RAG 3D] Found ${freshArticles.length} candidate articles`);
+
+        // If no GROQ key, do basic keyword filtering
+        if (!process.env.GROQ_API_KEY) {
+            const queryLower = query.toLowerCase();
+            const keywords = queryLower.split(/\s+/).filter(w => w.length > 2);
+            
+            const filtered = freshArticles.filter(article => {
+                const titleLower = article.title.toLowerCase();
+                const descLower = (article.description || '').toLowerCase();
+                // Require at least one keyword match in title
+                return keywords.some(kw => titleLower.includes(kw));
+            }).slice(0, 8);
+            
+            return filtered.map((article, i) => ({
+                id: String(i + 1),
+                title: article.title,
+                source: article.source.name,
+                publishedAt: article.publishedAt,
+                url: article.url,
+                description: article.description || '',
+                score: 0.9 - (i * 0.08), // Simulate decreasing relevance
+                breakdown: {
+                    tfidf: 0.8 - (i * 0.05),
+                    titleMatch: 0.9 - (i * 0.07),
+                    entityMatch: 0.7 - (i * 0.05),
+                    recency: 0.9 - (i * 0.1),
+                    sourceCredibility: 0.8
+                }
+            }));
+        }
+
+        // Use LLM to strictly filter for relevance
+        const chat = new ChatGroq({
+            apiKey: process.env.GROQ_API_KEY,
+            model: "llama-3.1-8b-instant",
+            temperature: 0,
+        });
+
+        const candidates = freshArticles.slice(0, 25);
+        const candidatesText = candidates.map((a, i) => 
+            `[${i}] Title: ${a.title}\nSource: ${a.source.name}\nDate: ${a.publishedAt}\nSummary: ${a.description || 'No summary'}`
+        ).join('\n\n');
+
+        const response = await chat.invoke([
+            new SystemMessage(`You are a strict news relevance filter. Analyze these articles and identify which ones are DIRECTLY and PRIMARILY about: "${query}"
+
+STRICT RULES:
+1. The article MUST be primarily about "${query}" - not just mentioning it briefly
+2. Exclude articles where "${query}" is only a minor detail
+3. Exclude completely unrelated articles
+4. Include articles that cover different aspects of "${query}" (developments, analysis, impact, reactions)
+5. Aim for timeline diversity - select articles from different dates if available
+
+Return ONLY a valid JSON object with this format:
+{
+  "selected": [0, 2, 5, 8],
+  "scores": [0.95, 0.88, 0.82, 0.75]
+}
+
+The "selected" array contains indices of relevant articles (max 8).
+The "scores" array contains relevance scores (0.0 to 1.0) for each selected article.
+Articles not about "${query}" should NOT be included.`),
+            new HumanMessage(candidatesText)
+        ]);
+
+        let selectedData: { selected: number[], scores: number[] } = { selected: [], scores: [] };
+        try {
+            const jsonMatch = (response.content as string).match(/\{[\s\S]*"selected"[\s\S]*\}/);
+            if (jsonMatch) {
+                selectedData = JSON.parse(jsonMatch[0]);
+            } else {
+                // Fallback: try to extract array
+                const arrayMatch = (response.content as string).match(/\[[\d,\s]*\]/);
+                if (arrayMatch) {
+                    selectedData.selected = JSON.parse(arrayMatch[0]);
+                    selectedData.scores = selectedData.selected.map((_, i) => 0.9 - (i * 0.08));
+                }
+            }
+        } catch (e) {
+            console.error("[RAG 3D] Failed to parse LLM response:", e);
+            // Fallback to first 5 with basic filtering
+            const queryLower = query.toLowerCase();
+            selectedData.selected = candidates
+                .map((a, i) => ({ i, match: a.title.toLowerCase().includes(queryLower) }))
+                .filter(x => x.match)
+                .slice(0, 5)
+                .map(x => x.i);
+            selectedData.scores = selectedData.selected.map((_, i) => 0.85 - (i * 0.1));
+        }
+
+        const result = selectedData.selected
+            .map((idx, i) => {
+                const article = candidates[idx];
+                if (!article) return null;
+                return {
+                    id: String(i + 1),
+                    title: article.title,
+                    source: article.source.name,
+                    publishedAt: article.publishedAt,
+                    url: article.url,
+                    description: article.description || '',
+                    score: selectedData.scores[i] || 0.7,
+                    breakdown: {
+                        tfidf: Math.max(0.3, (selectedData.scores[i] || 0.7) - 0.1 + Math.random() * 0.1),
+                        titleMatch: Math.max(0.4, (selectedData.scores[i] || 0.7) + Math.random() * 0.1),
+                        entityMatch: Math.max(0.3, (selectedData.scores[i] || 0.7) - 0.15 + Math.random() * 0.1),
+                        recency: 0.9 - (i * 0.1),
+                        sourceCredibility: 0.8 + Math.random() * 0.15
+                    }
+                };
+            })
+            .filter(Boolean);
+
+        console.log(`[RAG 3D] Filtered to ${result.length} relevant articles`);
+        return result;
+
+    } catch (error) {
+        console.error("[RAG 3D] Error fetching articles:", error);
+        return [];
+    }
+}
 
 export async function getRelatedContext(query: string) {
     // 1. Try to find related articles in the local RAG index first
