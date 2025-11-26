@@ -357,11 +357,11 @@ export async function getRelatedContext(query: string) {
     console.log(`[Related Context] Fetching context for: "${query}"`);
     
     try {
-        // Use enhanced search for better results with historical context
+        // Use enhanced search for better results with historical context (1, 3, 5, 10 years)
         const searchResult = await enhancedSearch(query, {
             includeHistorical: true,
-            historicalYears: [1, 3, 5],
-            maxArticles: 30
+            historicalYears: [1, 3, 5, 10],  // Include all timeframes
+            maxArticles: 40
         });
         
         // Score and filter current articles
@@ -372,33 +372,38 @@ export async function getRelatedContext(query: string) {
             })
             .filter(item => item.isRelevant)
             .sort((a, b) => b.score - a.score)
-            .slice(0, 5);
+            .slice(0, 8);
         
         // Format results
         const results = scoredCurrent.map(item => ({
             content: item.article.description || item.article.title,
+            pageContent: item.article.description || item.article.title,
             metadata: {
                 title: item.article.title,
                 url: item.article.url,
                 source: item.article.source?.name || 'Unknown',
                 publishedAt: item.article.publishedAt,
-                urlToImage: item.article.urlToImage
+                urlToImage: item.article.urlToImage,
+                isHistorical: false
             }
         }));
         
-        // Add historical context if available
+        // Add historical context if available - include articles from all timeframes
         if (searchResult.historicalContext.length > 0) {
             searchResult.historicalContext.forEach(ctx => {
+                // Get 2 articles from each historical timeframe
                 ctx.articles.slice(0, 2).forEach(article => {
                     results.push({
                         content: `[${ctx.timeframe}] ${article.description || article.title}`,
+                        pageContent: `[${ctx.timeframe}] ${article.description || article.title}`,
                         metadata: {
                             title: `📅 ${ctx.timeframe}: ${article.title}`,
                             url: article.url,
                             source: article.source?.name || 'Historical',
                             publishedAt: article.publishedAt,
                             urlToImage: article.urlToImage,
-                            isHistorical: true
+                            isHistorical: true,
+                            timeframe: ctx.timeframe
                         }
                     });
                 });

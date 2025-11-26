@@ -150,14 +150,18 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                     </div>
 
                                     <div className="mb-8">
-                                        <h4 className="text-sm font-bold text-[#71767A] uppercase tracking-wider mb-4">Knowledge Graph</h4>
-                                        <div className="h-[300px] bg-[#1c1c1c] border-2 border-[#3a3a3a] overflow-hidden">
+                                        <h4 className="text-sm font-bold text-[#71767A] uppercase tracking-wider mb-4">
+                                            Knowledge Timeline Graph
+                                            <span className="ml-2 text-[10px] text-[#00dc82] font-mono">(1, 3, 5, 10 Years)</span>
+                                        </h4>
+                                        <div className="h-[650px] bg-[#1c1c1c] border-2 border-[#3a3a3a] overflow-hidden">
                                             {loading ? (
-                                                <div className="flex justify-center py-12">
-                                                    <Loader2 className="animate-spin text-[#00D166]" />
+                                                <div className="flex flex-col items-center justify-center py-12 gap-4">
+                                                    <Loader2 className="animate-spin text-[#00D166]" size={32} />
+                                                    <p className="text-[#71767A] text-xs uppercase tracking-wider">Loading Timeline...</p>
                                                 </div>
                                             ) : related.length > 0 ? (
-                                                <GraphView articles={related} />
+                                                <GraphView articles={related} showTimelineSearch={true} />
                                             ) : (
                                                 <p className="text-[#71767A] text-sm text-center py-4 uppercase tracking-wider">
                                                     No related context found
