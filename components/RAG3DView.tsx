@@ -37,9 +37,9 @@ interface RAGNode {
     position: [number, number, number];
     score: number;
     breakdown: {
-        tfidf: number;
         titleMatch: number;
-        entityMatch: number;
+        contentMatch: number;
+        phraseMatch: number;
         recency: number;
         sourceCredibility: number;
     };

@@ -26,9 +26,9 @@ interface RAGResult {
     metadata: Record<string, any>;
     score: number;
     breakdown: {
-        tfidf: number;
         titleMatch: number;
-        entityMatch: number;
+        contentMatch: number;
+        phraseMatch: number;
         recency: number;
         sourceCredibility: number;
     };
@@ -84,30 +84,30 @@ export function RAGInsightsPanel() {
     };
 
     const scoreLabels: Record<keyof RAGResult['breakdown'], { label: string; icon: React.ReactNode; description: string }> = {
-        tfidf: { 
-            label: 'TF-IDF', 
-            icon: <Hash size={14} />,
-            description: 'Term Frequency-Inverse Document Frequency measures how important a word is to a document relative to the corpus'
-        },
         titleMatch: { 
             label: 'Title Match', 
             icon: <FileText size={14} />,
-            description: 'How well the query matches the article title (weighted heavily)'
+            description: 'How well the query matches the article title - the strongest relevance signal'
         },
-        entityMatch: { 
-            label: 'Entity Match', 
+        contentMatch: { 
+            label: 'Content Match', 
+            icon: <Hash size={14} />,
+            description: 'Term frequency in article description and content body'
+        },
+        phraseMatch: { 
+            label: 'Phrase Match', 
             icon: <Target size={14} />,
-            description: 'Match between entities (names, organizations, acronyms) in query and document'
+            description: 'Exact multi-word phrase matches (e.g., "climate change" as one phrase)'
         },
         recency: { 
             label: 'Recency', 
             icon: <Clock size={14} />,
-            description: 'Fresher articles score higher (decay function over time)'
+            description: 'Fresher articles score higher, with decay over time'
         },
         sourceCredibility: { 
             label: 'Source Credibility', 
             icon: <Shield size={14} />,
-            description: 'Pre-defined credibility scores for known sources (e.g., Reuters: 1.0, The Verge: 0.85)'
+            description: 'Pre-defined credibility scores (Reuters: 1.0, The Verge: 0.85, etc.)'
         },
     };
 
@@ -209,7 +209,7 @@ export function RAGInsightsPanel() {
                             <p className="text-xs text-[#a0a0a0]">
                                 <strong className="text-white">Final Score Formula:</strong>{' '}
                                 <span className="font-mono text-[#00dc82]">
-                                    (TF-IDF × 0.30) + (Title × 0.35) + (Entity × 0.15) + (Recency × 0.10) + (Credibility × 0.10)
+                                    (Title × 0.40) + (Content × 0.25) + (Phrase × 0.15) + (Recency × 0.10) + (Credibility × 0.10)
                                 </span>
                             </p>
                         </div>
