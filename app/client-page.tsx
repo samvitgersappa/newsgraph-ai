@@ -19,69 +19,80 @@ export function ClientPage({ initialArticles }: ClientPageProps) {
     const [showBiasMap, setShowBiasMap] = useState(true);
 
     return (
-        <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 dark:from-black dark:via-black dark:to-black selection:bg-blue-500/30 transition-colors duration-300">
-            {/* Grid Pattern */}
-            <div className="fixed inset-0 z-0 pointer-events-none opacity-30 dark:opacity-20"
+        <div className="min-h-screen relative overflow-hidden bg-white dark:bg-[#1c1c1c] selection:bg-[#00D166]/30 transition-colors duration-300">
+            {/* The Verge style subtle grid */}
+            <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05]"
                 style={{
-                    backgroundImage: 'linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px)',
-                    backgroundSize: '50px 50px'
+                    backgroundImage: 'linear-gradient(#1c1c1c 1px, transparent 1px), linear-gradient(90deg, #1c1c1c 1px, transparent 1px)',
+                    backgroundSize: '60px 60px'
                 }}
             />
 
-            {/* Dynamic Background Orbs */}
-            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-                <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-300/30 dark:bg-blue-600/10 blur-[150px] animate-pulse" />
-                <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-purple-300/30 dark:bg-purple-600/10 blur-[150px] animate-pulse delay-1000" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full bg-cyan-200/20 dark:bg-cyan-600/5 blur-[120px]" />
-            </div>
-
-            <div className="container mx-auto px-4 py-12 relative z-10">
-                <header className="mb-16 text-center relative">
+            <div className="container mx-auto px-4 py-8 relative z-10">
+                {/* The Verge style header */}
+                <header className="mb-12 relative">
                     <div className="absolute right-0 top-0">
                         <ThemeToggle />
                     </div>
 
+                    <div className="flex items-center gap-4 mb-6">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="w-2 h-16 bg-[#00D166]"
+                        />
+                        <div>
+                            <motion.h1
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="text-4xl md:text-6xl font-extrabold tracking-tight text-[#1c1c1c] dark:text-white uppercase"
+                            >
+                                NewsGraph AI
+                            </motion.h1>
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.2 }}
+                                className="text-sm text-[#71767A] dark:text-[#71767A] mt-2 font-medium tracking-wide"
+                            >
+                                AI-POWERED NEWS INTELLIGENCE
+                            </motion.p>
+                        </div>
+                    </div>
+
+                    {/* The Verge style navigation hint */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="inline-block mb-4 px-4 py-1.5 rounded-full border border-blue-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-sm text-xs font-medium text-blue-700 dark:text-zinc-400 shadow-sm"
-                    >
-                        ✨ AI-Powered News Intelligence
-                    </motion.div>
-                    <motion.h1
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-5xl md:text-7xl font-bold bg-gradient-to-b from-slate-900 via-blue-900 to-blue-600 dark:from-white dark:via-white/90 dark:to-white/50 bg-clip-text text-transparent mb-6 tracking-tight drop-shadow-sm"
-                    >
-                        NewsGraph AI
-                    </motion.h1>
-                    <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                        className="text-lg text-slate-700 dark:text-zinc-400 max-w-xl mx-auto leading-relaxed"
+                        transition={{ delay: 0.3 }}
+                        className="flex items-center gap-3 text-sm"
                     >
-                        Navigate the noise with <span className="text-blue-700 dark:text-blue-400 font-semibold">Deep Dive Context</span> and <span className="text-purple-700 dark:text-purple-400 font-semibold">Personalized Briefings</span>.
-                    </motion.p>
+                        <span className="px-3 py-1.5 bg-[#00D166] text-[#1c1c1c] font-bold text-xs uppercase tracking-wider">
+                            Live
+                        </span>
+                        <span className="text-[#71767A] dark:text-[#71767A]">
+                            Navigate the noise with <span className="text-[#00D166] font-semibold">Deep Dive Context</span> and <span className="text-[#FA3E3E] font-semibold">Personalized Briefings</span>
+                        </span>
+                    </motion.div>
                 </header>
 
-                <section className="mb-20">
+                <section className="mb-16">
                     <PersonalBriefing />
                 </section>
 
                 {/* Political Bias Heat Map Section */}
                 <section className="mb-12">
-                    <div className="flex items-center justify-between mb-6 px-2">
+                    <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center gap-3">
-                            <div className="h-10 w-1.5 bg-gradient-to-b from-blue-500 via-zinc-400 to-red-500 rounded-full shadow-sm" />
+                            <div className="w-1.5 h-10 bg-gradient-to-b from-[#5458F7] via-[#71767A] to-[#FA3E3E]" />
                             <div>
-                                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Political Bias Analysis</h2>
-                                <p className="text-xs text-slate-600 dark:text-zinc-500 mt-0.5">Source bias classification (Left/Center/Right)</p>
+                                <h2 className="text-xl font-bold text-[#1c1c1c] dark:text-white uppercase tracking-wide">Political Bias Analysis</h2>
+                                <p className="text-xs text-[#71767A] mt-0.5 uppercase tracking-wider">Source bias classification</p>
                             </div>
                         </div>
                         <button
                             onClick={() => setShowBiasMap(!showBiasMap)}
-                            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 dark:text-zinc-400 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg hover:bg-slate-50 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-all shadow-sm"
+                            className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-[#1c1c1c] dark:text-white bg-[#E7E7E7] dark:bg-[#2a2a2a] border-2 border-[#1c1c1c] dark:border-white/20 hover:bg-[#00D166] hover:text-[#1c1c1c] hover:border-[#00D166] transition-all uppercase tracking-wider"
                         >
                             {showBiasMap ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                             {showBiasMap ? 'Hide' : 'Show'}
@@ -99,16 +110,16 @@ export function ClientPage({ initialArticles }: ClientPageProps) {
                 </section>
 
                 <section>
-                    <div className="flex items-center justify-between mb-8 px-2">
+                    <div className="flex items-center justify-between mb-8">
                         <div className="flex items-center gap-3">
-                            <div className="h-10 w-1.5 bg-blue-500 rounded-full shadow-sm" />
+                            <div className="w-1.5 h-10 bg-[#00D166]" />
                             <div>
-                                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Top Headlines</h2>
-                                <p className="text-xs text-slate-600 dark:text-zinc-500 mt-0.5">Latest breaking news stories</p>
+                                <h2 className="text-xl font-bold text-[#1c1c1c] dark:text-white uppercase tracking-wide">Top Stories</h2>
+                                <p className="text-xs text-[#71767A] mt-0.5 uppercase tracking-wider">Breaking news</p>
                             </div>
                         </div>
-                        <div className="px-3 py-1.5 rounded-full bg-white dark:bg-white/5 border border-green-200 dark:border-white/10 text-xs font-medium text-green-700 dark:text-green-400 shadow-sm flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                        <div className="px-3 py-1.5 bg-[#FA3E3E] text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
                             Live Updates
                         </div>
                     </div>

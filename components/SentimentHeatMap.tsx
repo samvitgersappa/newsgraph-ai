@@ -62,9 +62,9 @@ export function SentimentHeatMap({ articles }: SentimentHeatMapProps) {
     }, [articles]);
 
     const getTrendIcon = (sentiment: number) => {
-        if (sentiment > 0.5) return <TrendingUp className="text-green-500" size={16} />;
-        if (sentiment < -0.5) return <TrendingDown className="text-red-500" size={16} />;
-        return <Minus className="text-zinc-400" size={16} />;
+        if (sentiment > 0.5) return <TrendingUp className="text-[#00D166]" size={16} />;
+        if (sentiment < -0.5) return <TrendingDown className="text-[#FA3E3E]" size={16} />;
+        return <Minus className="text-[#71767A]" size={16} />;
     };
 
     const getSentimentLabel = (sentiment: number) => {
@@ -74,43 +74,42 @@ export function SentimentHeatMap({ articles }: SentimentHeatMapProps) {
     };
 
     const getSentimentColor = (score: number) => {
-        if (score > 0.5) return '#22C55E'; // Green
-        if (score < -0.5) return '#EF4444'; // Red
-        return '#A1A1AA'; // Gray
+        if (score > 0.5) return '#00D166'; // Green
+        if (score < -0.5) return '#FA3E3E'; // Red
+        return '#71767A'; // Gray
     };
 
     return (
-        <div className="bg-white dark:bg-zinc-900/50 border border-slate-200 dark:border-white/10 rounded-2xl p-6 shadow-lg">
+        <div className="bg-white dark:bg-[#2a2a2a] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] p-6">
             <div className="mb-6">
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3">Sentiment by Source</h3>
+                <h3 className="text-lg font-bold text-[#1c1c1c] dark:text-white mb-3 uppercase tracking-wide">Sentiment by Source</h3>
                 <div className="flex flex-wrap items-center gap-4 text-xs">
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg">
-                        <span className="font-semibold text-slate-700 dark:text-zinc-300">Avg Score:</span>
+                    <div className="flex items-center gap-2 px-4 py-2 bg-[#F5F5F5] dark:bg-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a]">
+                        <span className="font-bold text-[#1c1c1c] dark:text-white uppercase tracking-wider">Avg Score:</span>
                         <span className="font-mono font-bold" style={{ color: getSentimentColor(stats.avgSentiment) }}>
                             {stats.avgSentiment.toFixed(2)}
                         </span>
                     </div>
-                    <div className="flex items-center gap-3 px-3 py-1.5 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg">
+                    <div className="flex items-center gap-4 px-4 py-2 bg-[#F5F5F5] dark:bg-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a]">
                         <div className="flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                            <span className="text-slate-700 dark:text-zinc-300 font-medium">{stats.positive}</span>
+                            <span className="w-3 h-3 bg-[#00D166]"></span>
+                            <span className="text-[#1c1c1c] dark:text-white font-bold">{stats.positive}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-gray-400"></span>
-                            <span className="text-slate-700 dark:text-zinc-300 font-medium">{stats.neutral}</span>
+                            <span className="w-3 h-3 bg-[#71767A]"></span>
+                            <span className="text-[#1c1c1c] dark:text-white font-bold">{stats.neutral}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-red-500"></span>
-                            <span className="text-slate-700 dark:text-zinc-300 font-medium">{stats.negative}</span>
+                            <span className="w-3 h-3 bg-[#FA3E3E]"></span>
+                            <span className="text-[#1c1c1c] dark:text-white font-bold">{stats.negative}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Heat Map Grid */}
-            <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {heatMapData.map((cell, index) => {
-                    const bgColor = getSentimentGradient(cell.sentiment) + '20';
                     const sentimentColor = getSentimentColor(cell.sentiment);
                     return (
                         <motion.div
@@ -118,14 +117,14 @@ export function SentimentHeatMap({ articles }: SentimentHeatMapProps) {
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: index * 0.05 }}
-                            className="group relative p-4 rounded-xl transition-all cursor-pointer hover:scale-105 border border-slate-200 dark:border-white/10 hover:shadow-lg"
-                            style={{ backgroundColor: bgColor }}
+                            className="group relative p-4 transition-all cursor-pointer border-2 border-[#E7E7E7] dark:border-[#3a3a3a] hover:border-[#00D166] bg-[#F5F5F5] dark:bg-[#1c1c1c]"
+                            style={{ borderLeftColor: sentimentColor, borderLeftWidth: '4px' }}
                             onMouseEnter={() => setSelectedCell(cell)}
                             onMouseLeave={() => setSelectedCell(null)}
                         >
                             {/* Source Name */}
                             <div className="flex items-center justify-between mb-2">
-                                <h4 className="text-sm font-semibold text-slate-900 dark:text-white truncate">
+                                <h4 className="text-sm font-bold text-[#1c1c1c] dark:text-white truncate uppercase tracking-wide">
                                     {cell.source}
                                 </h4>
                                 {getTrendIcon(cell.sentiment)}
@@ -133,16 +132,16 @@ export function SentimentHeatMap({ articles }: SentimentHeatMapProps) {
 
                             {/* Sentiment Score */}
                             <div className="flex items-baseline gap-2">
-                                <span className="text-2xl font-bold text-slate-900 dark:text-white">
+                                <span className="text-2xl font-bold text-[#1c1c1c] dark:text-white">
                                     {cell.sentiment.toFixed(2)}
                                 </span>
-                                <span className="text-xs font-medium" style={{ color: sentimentColor }}>
+                                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: sentimentColor }}>
                                     {getSentimentLabel(cell.sentiment)}
                                 </span>
                             </div>
 
                             {/* Article Count */}
-                            <div className="text-xs text-slate-500 dark:text-zinc-400 mt-1">
+                            <div className="text-xs text-[#71767A] mt-1 uppercase tracking-wider">
                                 {cell.count} article{cell.count !== 1 ? 's' : ''}
                             </div>
 
@@ -151,10 +150,10 @@ export function SentimentHeatMap({ articles }: SentimentHeatMapProps) {
                                 <motion.div
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className="absolute left-0 right-0 top-full mt-2 z-20 p-4 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-2xl text-xs"
+                                    className="absolute left-0 right-0 top-full mt-2 z-20 p-4 bg-white dark:bg-[#2a2a2a] border-2 border-[#00D166] shadow-xl text-xs"
                                 >
-                                    <div className="font-bold text-slate-900 dark:text-white mb-2">{cell.source} Articles:</div>
-                                    <ul className="space-y-1 max-h-32 overflow-y-auto text-slate-600 dark:text-zinc-400">
+                                    <div className="font-bold text-[#1c1c1c] dark:text-white mb-2 uppercase tracking-wide">{cell.source} Articles:</div>
+                                    <ul className="space-y-1 max-h-32 overflow-y-auto text-[#71767A]">
                                         {cell.articles.slice(0, 5).map((article, i) => (
                                             <li key={i} className="truncate">
                                                 • {article.title}
@@ -172,13 +171,13 @@ export function SentimentHeatMap({ articles }: SentimentHeatMapProps) {
             </div>
 
             {/* Legend */}
-            <div className="mt-6 pt-4 border-t border-slate-200 dark:border-white/10">
-                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-zinc-400">
+            <div className="mt-6 pt-4 border-t-2 border-[#E7E7E7] dark:border-[#3a3a3a]">
+                <div className="flex items-center gap-2 text-xs text-[#71767A]">
                     <Info size={14} />
-                    <span>Color intensity indicates sentiment strength</span>
-                    <div className="flex items-center gap-1 ml-auto">
-                        <div className="w-16 h-3 rounded-full bg-gradient-to-r from-red-500 via-zinc-400 to-green-500" />
-                        <span className="ml-2">Negative → Neutral → Positive</span>
+                    <span className="uppercase tracking-wider">Color intensity indicates sentiment strength</span>
+                    <div className="flex items-center gap-2 ml-auto">
+                        <div className="w-20 h-3 bg-gradient-to-r from-[#FA3E3E] via-[#71767A] to-[#00D166]" />
+                        <span className="uppercase tracking-wider">Negative → Neutral → Positive</span>
                     </div>
                 </div>
             </div>

@@ -70,23 +70,23 @@ export function PersonalBriefing() {
 
     return (
         <div className="w-full max-w-4xl mx-auto mt-8">
-            <Spotlight className="p-8 bg-white/90 dark:bg-zinc-900/80 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-xl rounded-2xl">
+            <div className="p-8 bg-white dark:bg-[#2a2a2a] border-2 border-[#E7E7E7] dark:border-[#3a3a3a]">
                 <div className="flex items-center gap-4 mb-8">
-                    <div className="p-3 bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-500/20 dark:to-blue-500/20 rounded-xl ring-1 ring-purple-200 dark:ring-white/10">
-                        <Sparkles className="text-purple-700 dark:text-purple-400" size={24} />
+                    <div className="p-3 bg-[#00D166]">
+                        <Sparkles className="text-[#1c1c1c]" size={24} />
                     </div>
                     <div className="flex-1">
-                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">Personal Editor</h3>
-                        <p className="text-sm text-slate-600 dark:text-zinc-400">Generate a synthesized briefing on any topic using RAG</p>
+                        <h3 className="text-xl font-bold text-[#1c1c1c] dark:text-white uppercase tracking-wide">Personal Editor</h3>
+                        <p className="text-sm text-[#71767A] uppercase tracking-wider">Generate a synthesized briefing on any topic</p>
                     </div>
 
-                    {/* Mode Toggle */}
-                    <div className="flex items-center gap-1 bg-slate-100 dark:bg-white/5 p-1 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
+                    {/* Mode Toggle - The Verge style */}
+                    <div className="flex items-center gap-0 border-2 border-[#1c1c1c] dark:border-white/20">
                         <button
                             onClick={() => setIsMultiPerspective(false)}
-                            className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${!isMultiPerspective
-                                    ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white shadow-md border border-slate-200 dark:border-white/10'
-                                    : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
+                            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all ${!isMultiPerspective
+                                    ? 'bg-[#00D166] text-[#1c1c1c]'
+                                    : 'bg-transparent text-[#71767A] hover:text-[#1c1c1c] dark:hover:text-white'
                                 }`}
                         >
                             <FileText className="inline-block mr-1" size={12} />
@@ -94,9 +94,9 @@ export function PersonalBriefing() {
                         </button>
                         <button
                             onClick={() => setIsMultiPerspective(true)}
-                            className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${isMultiPerspective
-                                    ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white shadow-md border border-slate-200 dark:border-white/10'
-                                    : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
+                            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all border-l-2 border-[#1c1c1c] dark:border-white/20 ${isMultiPerspective
+                                    ? 'bg-[#00D166] text-[#1c1c1c]'
+                                    : 'bg-transparent text-[#71767A] hover:text-[#1c1c1c] dark:hover:text-white'
                                 }`}
                         >
                             <Eye className="inline-block mr-1" size={12} />
@@ -105,37 +105,37 @@ export function PersonalBriefing() {
                     </div>
                 </div>
 
-                <div className="relative flex gap-2 mb-8 group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-400 to-blue-400 dark:from-purple-500 dark:to-blue-500 rounded-xl opacity-20 group-hover:opacity-30 dark:group-hover:opacity-40 transition duration-500 blur"></div>
+                <div className="flex gap-3 mb-8">
                     <input
                         type="text"
                         value={topic}
                         onChange={(e) => setTopic(e.target.value)}
                         placeholder="e.g., 'Impact of AI on healthcare' or 'Crypto regulation'"
-                        className="relative flex-1 bg-white dark:bg-zinc-900 border border-slate-300 dark:border-white/10 rounded-xl px-5 py-4 text-base text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50 dark:focus:ring-purple-500/50 transition-all shadow-sm"
+                        className="flex-1 bg-[#F5F5F5] dark:bg-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] px-5 py-4 text-base text-[#1c1c1c] dark:text-white placeholder:text-[#71767A] focus:outline-none focus:border-[#00D166] transition-all"
                         onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
                     />
                     <button
                         onClick={handleGenerate}
                         disabled={loading || !topic.trim()}
-                        className="relative bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-zinc-100 text-white dark:text-black hover:from-slate-800 hover:to-slate-600 dark:hover:from-zinc-100 dark:hover:to-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed font-semibold px-6 py-2 rounded-xl transition-all flex items-center gap-2 shadow-lg hover:shadow-xl"
+                        className="bg-[#00D166] hover:bg-[#00E676] disabled:opacity-50 disabled:cursor-not-allowed text-[#1c1c1c] font-bold px-6 py-4 transition-all flex items-center gap-2 uppercase tracking-wider"
                     >
                         {loading ? <Loader2 className="animate-spin" size={20} /> : <ArrowRight size={20} />}
+                        Go
                     </button>
                 </div>
 
                 {loading && (
-                    <div className="mb-8 space-y-3">
+                    <div className="mb-8 space-y-3 p-4 bg-[#F5F5F5] dark:bg-[#1c1c1c] border-l-4 border-[#00D166]">
                         {STEPS.map((step) => (
                             <div key={step.id} className="flex items-center gap-3 text-sm">
                                 {currentStep > step.id ? (
-                                    <CheckCircle2 className="text-green-500 dark:text-green-400" size={16} />
+                                    <CheckCircle2 className="text-[#00D166]" size={16} />
                                 ) : currentStep === step.id ? (
-                                    <Loader2 className="animate-spin text-blue-600 dark:text-blue-400" size={16} />
+                                    <Loader2 className="animate-spin text-[#00D166]" size={16} />
                                 ) : (
-                                    <Circle className="text-zinc-300 dark:text-zinc-700" size={16} />
+                                    <Circle className="text-[#71767A]" size={16} />
                                 )}
-                                <span className={`${currentStep === step.id ? 'text-zinc-900 dark:text-white font-medium' : 'text-zinc-500'}`}>
+                                <span className={`uppercase tracking-wider ${currentStep === step.id ? 'text-[#1c1c1c] dark:text-white font-bold' : 'text-[#71767A]'}`}>
                                     {step.label}
                                 </span>
                             </div>
@@ -159,17 +159,17 @@ export function PersonalBriefing() {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1 }}
-                                    className="relative overflow-hidden rounded-xl bg-gradient-to-br from-slate-50 to-white dark:from-white/5 dark:to-transparent border border-slate-200 dark:border-white/10 p-6 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all shadow-sm hover:shadow-md"
+                                    className="relative overflow-hidden bg-[#F5F5F5] dark:bg-[#1c1c1c] border-l-4 border-[#00D166] p-6 hover:border-[#00E676] transition-all"
                                 >
-                                    <div className="flex items-center gap-3 mb-4 pb-4 border-b border-slate-200 dark:border-white/5">
-                                        <h3 className="text-lg font-bold text-slate-900 dark:text-white bg-gradient-to-r from-slate-900 to-blue-700 dark:from-white dark:to-zinc-400 bg-clip-text text-transparent">
+                                    <div className="flex items-center gap-3 mb-4 pb-4 border-b border-[#E7E7E7] dark:border-[#3a3a3a]">
+                                        <h3 className="text-lg font-bold text-[#1c1c1c] dark:text-white uppercase tracking-wide">
                                             {title}
                                         </h3>
                                     </div>
                                     <div className="prose prose-zinc dark:prose-invert prose-sm max-w-none 
-                                        prose-p:text-zinc-600 dark:prose-p:text-zinc-300 prose-p:leading-relaxed
-                                        prose-strong:text-zinc-900 dark:prose-strong:text-white prose-strong:font-semibold
-                                        prose-ul:my-2 prose-li:text-zinc-600 dark:prose-li:text-zinc-300 prose-li:marker:text-blue-500">
+                                        prose-p:text-[#71767A] dark:prose-p:text-[#a0a0a0] prose-p:leading-relaxed
+                                        prose-strong:text-[#1c1c1c] dark:prose-strong:text-white prose-strong:font-bold
+                                        prose-ul:my-2 prose-li:text-[#71767A] dark:prose-li:text-[#a0a0a0] prose-li:marker:text-[#00D166]">
                                         <ReactMarkdown>{content}</ReactMarkdown>
                                     </div>
                                 </motion.div>
@@ -177,7 +177,7 @@ export function PersonalBriefing() {
                         })}
                     </div>
                 ) : null}
-            </Spotlight>
+            </div>
         </div>
     );
 }

@@ -12,7 +12,7 @@ export default async function Page() {
   await indexArticles(articles);
 
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-blue-500/30">
+    <main className="min-h-screen bg-white dark:bg-[#1c1c1c] text-[#1c1c1c] dark:text-white selection:bg-[#00D166]/30">
       <ClientPage initialArticles={articles} />
     </main>
   );

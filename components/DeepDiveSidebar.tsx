@@ -65,40 +65,43 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                 <>
                     <motion.div
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.5 }}
+                        animate={{ opacity: 0.7 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black z-40"
+                        className="fixed inset-0 bg-[#1c1c1c] z-40"
                     />
                     <motion.div
                         initial={{ x: '100%' }}
                         animate={{ x: 0 }}
                         exit={{ x: '100%' }}
                         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        className="fixed right-0 top-0 bottom-0 w-full md:w-[600px] bg-zinc-900 border-l border-white/10 z-50 flex flex-col shadow-2xl"
+                        className="fixed right-0 top-0 bottom-0 w-full md:w-[600px] bg-[#2a2a2a] border-l-4 border-[#00D166] z-50 flex flex-col shadow-2xl"
                     >
                         {/* Header */}
-                        <div className="p-6 border-b border-white/10 bg-zinc-900/50 backdrop-blur-md z-10">
+                        <div className="p-6 border-b-2 border-[#3a3a3a] bg-[#2a2a2a] z-10">
                             <div className="flex items-center justify-between mb-4">
-                                <h2 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                                    Deep Dive Context
-                                </h2>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-1.5 h-8 bg-[#00D166]" />
+                                    <h2 className="text-xl font-bold text-white uppercase tracking-wide">
+                                        Deep Dive
+                                    </h2>
+                                </div>
                                 <button
                                     onClick={onClose}
-                                    className="p-2 hover:bg-white/10 rounded-full transition-colors text-zinc-400 hover:text-white"
+                                    className="p-2 hover:bg-[#00D166] text-[#71767A] hover:text-[#1c1c1c] transition-colors"
                                 >
                                     <X size={20} />
                                 </button>
                             </div>
 
-                            {/* Tabs */}
-                            <div className="flex gap-2 p-1 bg-white/5 rounded-lg">
+                            {/* Tabs - The Verge style */}
+                            <div className="flex gap-0 border-2 border-[#3a3a3a]">
                                 <button
                                     onClick={() => setActiveTab('context')}
-                                    className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-all ${
+                                    className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-bold uppercase tracking-wider transition-all ${
                                         activeTab === 'context'
-                                            ? 'bg-blue-600 text-white shadow-lg'
-                                            : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                                            ? 'bg-[#00D166] text-[#1c1c1c]'
+                                            : 'text-[#71767A] hover:text-white hover:bg-[#3a3a3a]'
                                     }`}
                                 >
                                     <FileText size={16} />
@@ -106,21 +109,21 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('perspectives')}
-                                    className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-all ${
+                                    className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-bold uppercase tracking-wider transition-all border-l-2 border-[#3a3a3a] ${
                                         activeTab === 'perspectives'
-                                            ? 'bg-blue-600 text-white shadow-lg'
-                                            : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                                            ? 'bg-[#00D166] text-[#1c1c1c]'
+                                            : 'text-[#71767A] hover:text-white hover:bg-[#3a3a3a]'
                                     }`}
                                 >
                                     <Scale size={16} />
-                                    Bias Check
+                                    Bias
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('chat')}
-                                    className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-all ${
+                                    className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-bold uppercase tracking-wider transition-all border-l-2 border-[#3a3a3a] ${
                                         activeTab === 'chat'
-                                            ? 'bg-blue-600 text-white shadow-lg'
-                                            : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                                            ? 'bg-[#00D166] text-[#1c1c1c]'
+                                            : 'text-[#71767A] hover:text-white hover:bg-[#3a3a3a]'
                                     }`}
                                 >
                                     <MessageSquareIcon size={16} />
@@ -134,40 +137,40 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                             {activeTab === 'context' && (
                                 <div className="p-6">
                                     <div className="mb-8">
-                                        <h3 className="text-2xl font-bold text-white mb-2">{article.title}</h3>
-                                        <p className="text-zinc-400 leading-relaxed">{article.description}</p>
+                                        <h3 className="text-2xl font-bold text-white mb-2 leading-tight">{article.title}</h3>
+                                        <p className="text-[#a0a0a0] leading-relaxed">{article.description}</p>
                                         <a
                                             href={article.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-2 mt-4 text-sm text-blue-400 hover:text-blue-300"
+                                            className="inline-flex items-center gap-2 mt-4 text-sm text-[#00D166] hover:text-[#00E676] font-bold uppercase tracking-wider"
                                         >
                                             Read Full Article <LinkIcon size={14} />
                                         </a>
                                     </div>
 
                                     <div className="mb-8">
-                                        <h4 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4">Knowledge Graph</h4>
-                                        <div className="h-[300px] bg-black/20 rounded-xl border border-white/10 overflow-hidden">
+                                        <h4 className="text-sm font-bold text-[#71767A] uppercase tracking-wider mb-4">Knowledge Graph</h4>
+                                        <div className="h-[300px] bg-[#1c1c1c] border-2 border-[#3a3a3a] overflow-hidden">
                                             {loading ? (
                                                 <div className="flex justify-center py-12">
-                                                    <Loader2 className="animate-spin text-blue-400" />
+                                                    <Loader2 className="animate-spin text-[#00D166]" />
                                                 </div>
                                             ) : related.length > 0 ? (
                                                 <GraphView articles={related} />
                                             ) : (
-                                                <p className="text-zinc-500 text-sm text-center py-4">
-                                                    No related context found in the graph.
+                                                <p className="text-[#71767A] text-sm text-center py-4 uppercase tracking-wider">
+                                                    No related context found
                                                 </p>
                                             )}
                                         </div>
                                     </div>
 
                                     <div>
-                                        <h4 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4">Related Coverage</h4>
+                                        <h4 className="text-sm font-bold text-[#71767A] uppercase tracking-wider mb-4">Related Coverage</h4>
                                         {loading ? (
                                             <div className="flex items-center justify-center py-12">
-                                                <Loader2 className="animate-spin text-blue-500" size={32} />
+                                                <Loader2 className="animate-spin text-[#00D166]" size={32} />
                                             </div>
                                         ) : (
                                             <div className="space-y-4">
@@ -177,10 +180,10 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                                         initial={{ opacity: 0, y: 10 }}
                                                         animate={{ opacity: 1, y: 0 }}
                                                         transition={{ delay: i * 0.1 }}
-                                                        className="p-4 bg-white/5 rounded-xl border border-white/5 hover:border-white/10 transition-colors"
+                                                        className="p-4 bg-[#1c1c1c] border-l-4 border-[#00D166] hover:border-[#00E676] transition-colors"
                                                     >
-                                                        <h5 className="font-medium text-zinc-200 mb-2">{item.metadata.title}</h5>
-                                                        <p className="text-sm text-zinc-400 line-clamp-2">{item.pageContent}</p>
+                                                        <h5 className="font-bold text-white mb-2">{item.metadata.title}</h5>
+                                                        <p className="text-sm text-[#71767A] line-clamp-2">{item.pageContent}</p>
                                                     </motion.div>
                                                 ))}
                                             </div>
@@ -199,9 +202,9 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                 <div className="flex flex-col h-full">
                                     <div className="flex-1 p-6 space-y-4">
                                         {chatMessages.length === 0 && (
-                                            <div className="text-center text-zinc-500 mt-12">
+                                            <div className="text-center text-[#71767A] mt-12">
                                                 <Bot size={48} className="mx-auto mb-4 opacity-50" />
-                                                <p>Ask me anything about this article or related context.</p>
+                                                <p className="uppercase tracking-wider text-sm">Ask me anything about this article</p>
                                             </div>
                                         )}
                                         {chatMessages.map((msg, i) => (
@@ -209,15 +212,15 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                                 key={i}
                                                 className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
                                             >
-                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                                    msg.role === 'user' ? 'bg-blue-600' : 'bg-purple-600'
+                                                <div className={`w-8 h-8 flex items-center justify-center flex-shrink-0 ${
+                                                    msg.role === 'user' ? 'bg-[#00D166]' : 'bg-[#FA3E3E]'
                                                 }`}>
-                                                    {msg.role === 'user' ? <UserIcon size={14} /> : <Bot size={14} />}
+                                                    {msg.role === 'user' ? <UserIcon size={14} className="text-[#1c1c1c]" /> : <Bot size={14} className="text-white" />}
                                                 </div>
-                                                <div className={`p-3 rounded-2xl max-w-[80%] text-sm ${
+                                                <div className={`p-3 max-w-[80%] text-sm ${
                                                     msg.role === 'user' 
-                                                        ? 'bg-blue-600 text-white rounded-tr-none' 
-                                                        : 'bg-white/10 text-zinc-200 rounded-tl-none'
+                                                        ? 'bg-[#00D166] text-[#1c1c1c]' 
+                                                        : 'bg-[#1c1c1c] text-white border-l-4 border-[#FA3E3E]'
                                                 }`}>
                                                     {msg.content}
                                                 </div>
@@ -225,29 +228,29 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                         ))}
                                         {chatLoading && (
                                             <div className="flex gap-3">
-                                                <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center flex-shrink-0">
-                                                    <Bot size={14} />
+                                                <div className="w-8 h-8 bg-[#FA3E3E] flex items-center justify-center flex-shrink-0">
+                                                    <Bot size={14} className="text-white" />
                                                 </div>
-                                                <div className="bg-white/10 p-3 rounded-2xl rounded-tl-none">
-                                                    <Loader2 className="animate-spin" size={16} />
+                                                <div className="bg-[#1c1c1c] p-3 border-l-4 border-[#FA3E3E]">
+                                                    <Loader2 className="animate-spin text-[#00D166]" size={16} />
                                                 </div>
                                             </div>
                                         )}
                                     </div>
-                                    <div className="p-4 border-t border-white/10 bg-zinc-900/50 backdrop-blur-sm">
-                                        <div className="relative">
+                                    <div className="p-4 border-t-2 border-[#3a3a3a] bg-[#2a2a2a]">
+                                        <div className="flex gap-3">
                                             <input
                                                 type="text"
                                                 value={chatInput}
                                                 onChange={(e) => setChatInput(e.target.value)}
                                                 onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
                                                 placeholder="Ask a question..."
-                                                className="w-full bg-white/5 border border-white/10 rounded-full py-3 pl-4 pr-12 text-white placeholder:text-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
+                                                className="flex-1 bg-[#1c1c1c] border-2 border-[#3a3a3a] py-3 px-4 text-white placeholder:text-[#71767A] focus:outline-none focus:border-[#00D166] transition-colors"
                                             />
                                             <button
                                                 onClick={handleChatSubmit}
                                                 disabled={!chatInput.trim() || chatLoading}
-                                                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-blue-600 text-white rounded-full hover:bg-blue-500 disabled:opacity-50 disabled:hover:bg-blue-600 transition-colors"
+                                                className="p-3 bg-[#00D166] text-[#1c1c1c] hover:bg-[#00E676] disabled:opacity-50 disabled:hover:bg-[#00D166] transition-colors"
                                             >
                                                 <Send size={16} />
                                             </button>

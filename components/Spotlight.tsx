@@ -11,7 +11,7 @@ interface SpotlightProps {
 export function Spotlight({
     children,
     className = "",
-    spotlightColor = "rgba(255, 255, 255, 0.1)"
+    spotlightColor = "rgba(0, 209, 102, 0.08)"
 }: SpotlightProps) {
     const divRef = useRef<HTMLDivElement>(null);
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -38,7 +38,7 @@ export function Spotlight({
             onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`relative overflow-hidden rounded-xl border border-white/10 bg-zinc-900/50 ${className}`}
+            className={`relative overflow-hidden bg-white dark:bg-[#2a2a2a] ${className}`}
         >
             <div
                 className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
