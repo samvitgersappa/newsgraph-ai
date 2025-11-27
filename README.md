@@ -3,129 +3,186 @@
 <div align="center">
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Next.js](https://img.shields.io/badge/Next.js-16.0-black)
-![Tailwind](https://img.shields.io/badge/Tailwind-v4-cyan)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
-![AI](https://img.shields.io/badge/AI-Powered-purple)
+![Next.js](https://img.shields.io/badge/Next.js-15-black)
+![React](https://img.shields.io/badge/React-19-61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6)
+![Tailwind](https://img.shields.io/badge/Tailwind-v4-06B6D4)
+![AI](https://img.shields.io/badge/AI-RAG%20Powered-8B5CF6)
 
 **Transform information overload into actionable intelligence.**
 
-[Live Demo](#) · [Report Bug](https://github.com/samvitgersappa/newsgraph-ai/issues) · [Request Feature](https://github.com/samvitgersappa/newsgraph-ai/issues)
+An AI-powered news intelligence platform featuring **RAG (Retrieval-Augmented Generation)**, **3D Knowledge Visualization**, **Multi-Source Historical Context**, and **Bias Detection**.
+
+[Features](#-features) · [Quick Start](#-quick-start) · [Architecture](#-architecture) · [API Reference](#-api-reference) · [Contributing](#-contributing)
 
 </div>
 
 ---
 
-## 📋 Table of Contents
+## 🎯 What is NewsGraph AI?
 
-- [Overview](#-overview)
-- [Key Features](#-key-features)
-- [Demo](#-demo)
-- [Architecture](#-architecture)
-- [Tech Stack](#-tech-stack)
-- [Getting Started](#-getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Environment Setup](#environment-setup)
-- [Usage Guide](#-usage-guide)
-- [Project Structure](#-project-structure)
-- [API Reference](#-api-reference)
-- [Configuration](#-configuration)
-- [Deployment](#-deployment)
-- [Troubleshooting](#-troubleshooting)
-- [Roadmap](#-roadmap)
-- [Contributing](#-contributing)
-- [License](#-license)
+NewsGraph AI is a next-generation news intelligence platform that goes beyond traditional news aggregation. It combines:
 
----
-
-## 🌟 Overview
-
-**NewsGraph AI** is a next-generation news intelligence platform that goes beyond traditional news aggregation. By combining real-time global news feeds with **Retrieval-Augmented Generation (RAG)** and an interactive **Knowledge Graph**, it transforms how you consume and understand information.
+- **Real-time global news feeds** from multiple sources
+- **RAG-powered context retrieval** with multi-signal relevance scoring
+- **Interactive 3D Knowledge Graphs** for visualizing article relationships
+- **Historical Timeline Analysis** spanning 1, 3, 5, and 10 years
+- **AI-generated intelligence briefings** with source attribution
+- **Multi-perspective bias detection** across political spectrums
 
 ### The Problem
 
-In today's information age:
-- **Information Overload**: Thousands of articles published daily
-- **Lack of Context**: Stories exist in isolation without connections
-- **Time Constraints**: No time to read multiple sources for full understanding
-- **Bias & Noise**: Difficulty separating signal from noise
+| Challenge | Impact |
+|-----------|--------|
+| 📊 **Information Overload** | Thousands of articles published daily |
+| 🔗 **Lack of Context** | Stories exist in isolation |
+| ⏱️ **Time Constraints** | No time to read multiple sources |
+| 🎭 **Hidden Bias** | Difficult to identify perspective slants |
+| 📅 **No Historical Context** | Missing long-term patterns and precedents |
 
 ### The Solution
 
-NewsGraph AI addresses these challenges by:
-1. **Synthesizing** multiple sources into executive briefings
-2. **Visualizing** connections between stories and entities
-3. **Enabling** natural language interrogation of news content
-4. **Providing** strategic context and future implications
+NewsGraph AI addresses these challenges with:
+
+1. **RAG-Enhanced Search** - Multi-signal scoring (title, content, phrase, recency, credibility)
+2. **3D Visualization** - Interactive knowledge graphs with Three.js
+3. **Timeline Analysis** - Historical context from 1, 3, 5, and 10 years back
+4. **Intelligence Desk** - AI-synthesized briefings with structured insights
+5. **Bias Detection** - Multi-perspective analysis across political spectrum
 
 ---
 
-## ✨ Key Features
+## ✨ Features
 
-### 🔍 Deep Dive Context Engine
+### 🔍 Enhanced RAG Engine
 
-Click any news article to unlock a powerful sidebar containing:
+Our custom RAG implementation uses **multi-signal relevance scoring**:
 
-- **Interactive Knowledge Graph**: Force-directed visualization showing:
-  - Related articles and their connections
-  - Shared entities (people, organizations, locations)
-  - Temporal relationships
-  - Zoom, pan, and click nodes for details
+```
+Final Score = (Title×0.40) + (Content×0.25) + (Phrase×0.15) + (Recency×0.10) + (Credibility×0.10)
+```
 
-- **Contextual AI Chat**: Ask questions about the specific article:
-  ```
-  "What is the background of this conflict?"
-  "Who are the key political figures involved?"
-  "Summarize the financial impact in bullet points"
-  "What happened before this event?"
-  ```
+**Key Features:**
+- TF-IDF based semantic matching
+- Entity extraction (people, organizations, locations)
+- Source credibility weighting (Reuters, AP, BBC ranked highest)
+- LLM-powered relevance validation via Groq
 
-### 🤖 Personal Editor (Agentic Intelligence)
+### 🌐 3D RAG Visualization
 
-A "Commercial-Grade" AI analyst that generates executive briefings on **any topic**:
+Interactive Three.js-powered knowledge graph:
+
+- **Spherical node layout** with source-based coloring
+- **Connection lines** showing article relationships
+- **Click-to-analyze** any node for detailed scoring breakdown
+- **Zoom, pan, and rotate** controls
+- **Real-time article fetching** from multiple news APIs
+
+### 📅 Knowledge Timeline Graph
+
+Historical context spanning multiple timeframes:
+
+| Timeframe | Color | Purpose |
+|-----------|-------|---------|
+| Current | 🟢 Green | Breaking news & recent events |
+| 1 Year | 🔵 Blue | Short-term historical context |
+| 3 Years | 🟣 Purple | Medium-term patterns |
+| 5 Years | 🟠 Orange | Long-term trends |
+| 10 Years | 🔴 Red | Decade-spanning historical precedents |
 
 **Features:**
-- **Live Research**: Actively queries NewsAPI for the latest articles
-- **Multi-Source Synthesis**: Combines 5-10 sources for comprehensive analysis
-- **Structured Output**: Professional Markdown reports with:
-  - 🎯 **Executive Summary**: 2-3 sentence strategic overview
-  - 🔑 **Key Developments**: Bulleted facts with dates and sources
-  - 🧠 **Strategic Context**: Analysis of drivers and forces
-  - 🔮 **Future Implications**: Short and long-term forecasts
+- Toggle individual timeframes on/off
+- Search within timeline
+- SVG-based timeline visualization
+- Animated node transitions
 
-**Visual Process Indicator:**
-Watch the AI work in real-time:
-1. ✓ Scanning Global News Network...
-2. ✓ Extracting Key Entities...
-3. ✓ Cross-Referencing Sources...
-4. ✓ Synthesizing Intelligence Report...
+### 🧠 Intelligence Desk
 
-### 🎨 Premium UI/UX
+AI-powered briefing generator (formerly "Personal Editor"):
 
-**Adaptive Theming:**
-- **Dark Mode**: Data-rich interface with Zinc/Black palette
-- **Light Mode**: Clean, high-contrast White/Gray design
-- **Instant Toggle**: Seamless switching with animated transitions
+**Capabilities:**
+- **Quick Topic Pills** - One-click access to AI, Markets, Climate, Geopolitics, Crypto, Healthcare
+- **Multi-step Processing** - Visual feedback during analysis
+- **Structured Output** - Executive Summary, Key Developments, Strategic Context, Future Implications
+- **Export Options** - Copy, Download as Markdown, Share, Bookmark
 
-**Visual Effects:**
-- **Spotlight Cards**: Cursor-following radial gradients
-- **Glassmorphism**: Translucent UI elements with backdrop blur
-- **Micro-interactions**: Smooth Framer Motion animations
-- **Responsive Design**: Optimized for desktop, tablet, and mobile
+**Output Format:**
+```markdown
+## 🎯 Executive Summary
+High-level synthesis in 2-3 sentences
+
+## 🔑 Key Developments  
+• [Date/Source]: Specific fact or data point
+• [Date/Source]: Another critical development
+
+## 🧠 Strategic Context
+Analysis of drivers and underlying forces
+
+## 🔮 Future Implications
+• Short Term: Next 30 days outlook
+• Long Term: Structural shifts and risks
+```
+
+### 🎭 Multi-Perspective Bias Analysis
+
+Analyze any topic across political perspectives:
+
+- **Progressive** (Left-leaning sources)
+- **Mainstream** (Centrist sources)  
+- **Conservative** (Right-leaning sources)
+
+Includes sentiment scoring and framing analysis.
+
+### 🎨 The Verge-Inspired UI
+
+Premium visual design featuring:
+
+- **Dark/Light Mode** with instant toggle
+- **Spotlight Effects** - Cursor-following gradients
+- **Bold Typography** - Uppercase tracking, strong hierarchy
+- **Color Palette** - Verge Green (#00dc82) accents
+- **Framer Motion** animations throughout
 
 ---
 
-## 🎬 Demo
+## 🚀 Quick Start
 
-### Main Feed
-![Main Feed](https://via.placeholder.com/1200x600/000000/ffffff?text=NewsGraph+AI+Feed)
+### Prerequisites
 
-### Deep Dive Sidebar
-![Deep Dive](https://via.placeholder.com/1200x600/000000/ffffff?text=Deep+Dive+Context)
+- **Node.js** 18.17+ ([Download](https://nodejs.org/))
+- **npm** 9.0+ (comes with Node.js)
 
-### Personal Editor
-![Personal Editor](https://via.placeholder.com/1200x600/000000/ffffff?text=AI+Briefing+Generator)
+### API Keys Required
+
+| Service | Purpose | Get Key |
+|---------|---------|---------|
+| NewsAPI | Primary news source | [newsapi.org/register](https://newsapi.org/register) |
+| Groq | LLM inference | [console.groq.com](https://console.groq.com/) |
+| GNews (optional) | Secondary news source | [gnews.io](https://gnews.io/) |
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/samvitgersappa/newsgraph-ai.git
+cd newsgraph-ai
+
+# Install dependencies
+npm install
+
+# Copy environment template
+cp .env.example .env.local
+
+# Add your API keys to .env.local
+# NEXT_PUBLIC_NEWS_API_KEY=your_key_here
+# GROQ_API_KEY=your_key_here
+# GNEWS_API_KEY=your_key_here (optional)
+
+# Start development server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
@@ -133,191 +190,75 @@ Watch the AI work in real-time:
 
 ### System Overview
 
-```mermaid
-<<<<<<< HEAD
-graph TD
-  User[User] --> UI["Next.js Client UI"]
-  UI --> Server["Server Actions"]
-  Server --> NewsAPI["NewsAPI.org"]
-  Server --> VectorDB["In-Memory Vector Store"]
-  Server --> LLM["Groq (Llama 3.1)"]
-
-  NewsAPI -->|Raw Articles| Server
-  Server -->|Embeddings| VectorDB
-  VectorDB -->|Context| LLM
-  LLM -->|Briefing / Chat| UI
-=======
-graph TB
-    User[👤 User] --> UI[Next.js Client UI]
-    UI --> ServerActions[Server Actions]
-    
-    ServerActions --> NewsAPI[NewsAPI.org]
-    ServerActions --> VectorDB[Vector Store]
-    ServerActions --> LLM[Groq LLM]
-    
-    NewsAPI -->|Raw Articles| ServerActions
-    ServerActions -->|Embeddings| VectorDB
-    VectorDB -->|Context Retrieval| LLM
-    LLM -->|Generated Briefing| UI
-    
-    style User fill:#4F46E5
-    style LLM fill:#7C3AED
-    style NewsAPI fill:#2563EB
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        NewsGraph AI                              │
+├─────────────────────────────────────────────────────────────────┤
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │   News Feed  │  │  3D RAG View │  │  Intelligence │          │
+│  │    (Grid)    │  │   (Three.js) │  │     Desk      │          │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘          │
+│         │                 │                  │                   │
+│  ┌──────▼─────────────────▼──────────────────▼───────┐          │
+│  │              Server Actions (app/actions.ts)       │          │
+│  │  • getRelatedContext()  • fetchRAGArticlesForQuery │          │
+│  │  • generateBriefingAction()  • chatWithArticle()   │          │
+│  └──────┬─────────────────┬──────────────────┬───────┘          │
+│         │                 │                  │                   │
+│  ┌──────▼───────┐  ┌──────▼───────┐  ┌──────▼───────┐          │
+│  │ Enhanced News│  │  RAG Engine  │  │   Groq LLM   │          │
+│  │   Service    │  │ (TF-IDF +    │  │ (Llama 3.1)  │          │
+│  │ (Multi-API)  │  │  Vectors)    │  │              │          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 ### Data Flow
 
-1. **Initial Load**: Server fetches top headlines from NewsAPI
-2. **Indexing**: Articles are embedded and stored in vector database
-3. **User Interaction**: 
-   - Click article → Retrieve related context via similarity search
-   - Generate briefing → Fetch live news + RAG context → LLM synthesis
-   - Ask question → Combine article + context → LLM response
+1. **Initial Load** → Fetch from NewsAPI + index in RAG engine
+2. **User Search** → Multi-signal scoring + LLM validation
+3. **3D View** → Real-time article fetching with breakdown
+4. **Timeline** → Historical context from 1-10 years
+5. **Briefing** → Live news + RAG context → LLM synthesis
 
 ### Key Design Decisions
 
-- **Server Actions**: All AI/API calls happen server-side for security
-- **In-Memory Vector Store**: Fast, simple demo implementation (upgradeable to Pinecone/Supabase)
-- **Groq for LLM**: Sub-second inference latency with Llama 3.1
-- **Next.js App Router**: Modern React patterns with streaming support
+| Decision | Rationale |
+|----------|-----------|
+| Server Actions | Security - API keys never exposed to client |
+| In-Memory Vector Store | Fast iteration (upgradeable to Pinecone/Supabase) |
+| Groq LLM | Sub-second inference with Llama 3.1 |
+| Multi-Source News | Redundancy and broader coverage |
+| Historical Context | Patterns emerge over time |
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework**: [Next.js 16](https://nextjs.org/) (App Router, React 19)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) (new engine)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Theme**: [next-themes](https://github.com/pacocoursey/next-themes)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Markdown**: [react-markdown](https://github.com/remarkjs/react-markdown)
+| Package | Version | Purpose |
+|---------|---------|---------|
+| Next.js | 15 | App Router, Server Actions |
+| React | 19 | UI Components |
+| Tailwind CSS | v4 | Styling |
+| @react-three/fiber | 9.x | 3D Rendering |
+| @react-three/drei | 10.x | Three.js Helpers |
+| Framer Motion | 11.x | Animations |
+| react-zoom-pan-pinch | 3.x | Timeline Navigation |
 
 ### Backend & AI
-- **Runtime**: Node.js 18+
-- **AI Orchestration**: [LangChain.js](https://js.langchain.com/)
-- **LLM Provider**: [Groq](https://groq.com/) (Llama 3.1 8B Instant)
-- **Vector Search**: Custom in-memory implementation
-- **News API**: [NewsAPI.org](https://newsapi.org/)
+| Package | Purpose |
+|---------|---------|
+| @langchain/core | AI Orchestration |
+| @langchain/groq | Groq LLM Provider |
+| date-fns | Date Manipulation |
 
-### Development
-- **Language**: TypeScript 5.0
-- **Package Manager**: npm
-- **Linting**: ESLint (Next.js config)
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-Ensure you have the following installed:
-
-- **Node.js** 18.17 or later ([Download](https://nodejs.org/))
-- **npm** 9.0 or later (comes with Node.js)
-- **Git** ([Download](https://git-scm.com/))
-
-You'll also need API keys from:
-- **NewsAPI**: Free tier available at [newsapi.org](https://newsapi.org/register)
-- **Groq**: Free tier available at [console.groq.com](https://console.groq.com/)
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/samvitgersappa/newsgraph-ai.git
-   cd newsgraph-ai
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Verify installation**
-   ```bash
-   npm run build
-   ```
-
-### Environment Setup
-
-1. **Create environment file**
-   ```bash
-   cp .env.example .env.local
-   ```
-
-2. **Add your API keys**
-   
-   Open `.env.local` and add:
-   ```env
-   # NewsAPI Key (get from https://newsapi.org/register)
-   NEXT_PUBLIC_NEWS_API_KEY=your_actual_newsapi_key_here
-   
-   # Groq API Key (get from https://console.groq.com/)
-   GROQ_API_KEY=your_actual_groq_key_here
-   ```
-
-   ⚠️ **Important**: Never commit `.env.local` to git. It's already in `.gitignore`.
-
-3. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser**
-   
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
----
-
-## 📖 Usage Guide
-
-### 1. Browsing the News Feed
-
-- **Scroll** through the grid of top headlines
-- **Hover** over cards to see the spotlight effect
-- **Click** any card to open the Deep Dive sidebar
-
-### 2. Using Deep Dive Context
-
-**Knowledge Graph:**
-- **Zoom**: Mouse wheel or pinch gesture
-- **Pan**: Click and drag the background
-- **Inspect**: Click any node to see article details
-
-**Ask AI Chat:**
-- Type your question in the input box
-- Press Enter or click Send
-- The AI has full context of the article and related stories
-
-**Example Questions:**
-```
-"Summarize this in 3 bullet points"
-"What are the economic implications?"
-"Who are the stakeholders mentioned?"
-"What happened before this event?"
-```
-
-### 3. Generating Personal Briefings
-
-1. **Enter a topic** in the "Personal Editor" input box
-   - Examples: "AI regulation in Europe", "Climate change policy", "Cryptocurrency trends"
-
-2. **Click Generate** or press Enter
-
-3. **Watch the process**:
-   - The AI scans live news sources
-   - Extracts entities and facts
-   - Synthesizes a structured report
-
-4. **Read the briefing**:
-   - Each section appears in its own card
-   - Executive Summary → Key Developments → Strategic Context → Future Implications
-
-### 4. Switching Themes
-
-- Click the **sun/moon icon** in the top-right corner
-- Theme preference is saved to localStorage
+### APIs
+| Service | Purpose |
+|---------|---------|
+| NewsAPI.org | Primary news source |
+| GNews.io | Secondary news source |
+| Wikipedia API | Background context |
 
 ---
 
@@ -325,33 +266,42 @@ You'll also need API keys from:
 
 ```
 newsgraph-ai/
-├── app/                          # Next.js App Router
-│   ├── actions.ts               # Server Actions (LLM, API calls)
-│   ├── client-page.tsx          # Main client component
-│   ├── globals.css              # Tailwind config & themes
-│   ├── layout.tsx               # Root layout with ThemeProvider
-│   └── page.tsx                 # Server entry point (data fetching)
+├── app/
+│   ├── actions.ts                 # Server Actions (RAG, LLM, API)
+│   ├── multi-perspective-actions.ts # Bias analysis actions
+│   ├── client-page.tsx            # Main client component
+│   ├── globals.css                # Tailwind + theme config
+│   ├── layout.tsx                 # Root layout
+│   └── page.tsx                   # Server entry (data fetching)
 │
-├── components/                   # React Components
-│   ├── DeepDiveSidebar.tsx      # Sidebar with Graph & Chat
-│   ├── GraphView.tsx            # Interactive Knowledge Graph
-│   ├── NewsCard.tsx             # Article card with Spotlight
-│   ├── NewsFeed.tsx             # Grid layout for cards
-│   ├── PersonalBriefing.tsx     # AI briefing generator UI
-│   ├── Spotlight.tsx            # Reusable cursor effect
-│   ├── ThemeProvider.tsx        # next-themes wrapper
-│   └── ThemeToggle.tsx          # Light/Dark mode button
+├── components/
+│   ├── BiasHeatMap.tsx            # Political bias visualization
+│   ├── DeepDiveSidebar.tsx        # Context sidebar
+│   ├── GraphView.tsx              # Timeline Knowledge Graph
+│   ├── MultiPerspectiveView.tsx   # Multi-source bias view
+│   ├── NewsCard.tsx               # Article card
+│   ├── NewsFeed.tsx               # Grid layout
+│   ├── PersonalBriefing.tsx       # Intelligence Desk UI
+│   ├── RAG3DView.tsx              # 3D RAG Visualization
+│   ├── RAGInsightsPanel.tsx       # RAG scoring panel
+│   ├── SentimentHeatMap.tsx       # Sentiment analysis
+│   ├── Spotlight.tsx              # Cursor effect
+│   ├── ThemeProvider.tsx          # Theme context
+│   └── ThemeToggle.tsx            # Dark/light toggle
 │
-├── lib/                          # Core Logic
-│   ├── news-service.ts          # NewsAPI integration
-│   └── rag-engine.ts            # Vector store & RAG logic
+├── lib/
+│   ├── bias-detector.ts           # Bias detection logic
+│   ├── credibility-ratings.ts     # Source credibility scores
+│   ├── enhanced-news-service.ts   # Multi-source + historical
+│   ├── news-service.ts            # NewsAPI integration
+│   ├── rag-engine.ts              # RAG + vector store
+│   └── sentiment-analyzer.ts      # Sentiment analysis
 │
-├── public/                       # Static assets
-├── .env.example                  # Environment template
-├── .gitignore                    # Git ignore rules
-├── package.json                  # Dependencies
-├── README.md                     # This file
-└── tsconfig.json                 # TypeScript config
+├── public/                        # Static assets
+├── .env.example                   # Environment template
+├── package.json                   # Dependencies
+├── tsconfig.json                  # TypeScript config
+└── README.md                      # This file
 ```
 
 ---
@@ -360,102 +310,90 @@ newsgraph-ai/
 
 ### Server Actions
 
-All server actions are defined in `app/actions.ts`.
+#### `getRAGScoredResults(query, k)`
+Returns RAG-scored articles with detailed breakdown.
 
-#### `getRelatedContext(query: string)`
-
-Retrieves related articles using vector similarity search.
-
-**Parameters:**
-- `query` (string): Search query (article title or topic)
-
-**Returns:**
 ```typescript
-Array<{
-  content: string;
-  metadata: {
-    title: string;
-    source: string;
-    url: string;
-  }
-}>
+const results = await getRAGScoredResults("artificial intelligence", 10);
+// Returns: Array<{ content, metadata, score, breakdown }>
 ```
 
-#### `generateBriefingAction(topic: string)`
+#### `fetchRAGArticlesForQuery(query)`
+Fetches articles for 3D visualization with LLM validation.
 
-Generates an AI briefing on a given topic.
-
-**Parameters:**
-- `topic` (string): Topic to research (e.g., "Indian GDP")
-
-**Returns:**
 ```typescript
-string // Markdown-formatted briefing
+const articles = await fetchRAGArticlesForQuery("climate change");
+// Returns: Array<{ id, title, source, score, breakdown }>
 ```
 
-**Process:**
-1. Fetches live news from NewsAPI
-2. Retrieves local context from vector store
-3. Combines and deduplicates sources
-4. Sends to Groq LLM with structured prompt
-5. Returns formatted Markdown
+#### `getRelatedContext(query)`
+Retrieves related context including historical events.
 
-#### `chatWithArticle(question: string, context: string)`
-
-Answers questions about a specific article.
-
-**Parameters:**
-- `question` (string): User's question
-- `context` (string): Article content + related context
-
-**Returns:**
 ```typescript
-string // AI-generated answer
+const context = await getRelatedContext("Ukraine conflict");
+// Returns: Array<{ content, metadata, isHistorical? }>
+```
+
+#### `generateBriefingAction(topic)`
+Generates AI briefing on any topic.
+
+```typescript
+const briefing = await generateBriefingAction("Federal Reserve policy");
+// Returns: string (Markdown formatted)
+```
+
+### Scoring Breakdown
+
+```typescript
+interface ScoreBreakdown {
+  titleMatch: number;       // 0-1, weight: 40%
+  contentMatch: number;     // 0-1, weight: 25%
+  phraseMatch: number;      // 0-1, weight: 15%
+  recency: number;          // 0-1, weight: 10%
+  sourceCredibility: number; // 0-1, weight: 10%
+}
 ```
 
 ---
 
 ## ⚙️ Configuration
 
-### Changing the LLM Model
+### Environment Variables
+
+```env
+# Required
+NEXT_PUBLIC_NEWS_API_KEY=your_newsapi_key
+GROQ_API_KEY=your_groq_key
+
+# Optional (enhanced coverage)
+GNEWS_API_KEY=your_gnews_key
+```
+
+### LLM Model Selection
 
 Edit `app/actions.ts`:
 
 ```typescript
 const chat = new ChatGroq({
-    apiKey: process.env.GROQ_API_KEY,
-    model: "llama-3.1-8b-instant", // Change this
-    temperature: 0.5,
+    model: "llama-3.1-8b-instant", // Fast, recommended
+    // model: "llama-3.1-70b-versatile", // More capable
+    // model: "mixtral-8x7b-32768", // Long context
 });
 ```
 
-**Available Groq Models:**
-- `llama-3.1-8b-instant` (fastest, recommended)
-- `llama-3.1-70b-versatile` (more capable, slower)
-- `mixtral-8x7b-32768` (long context)
+### Source Credibility Weights
 
-### Customizing the Theme
+Edit `app/actions.ts`:
 
-Edit `app/globals.css`:
-
-```css
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-}
+```typescript
+const SOURCE_CREDIBILITY = {
+    'Reuters': 1.0,
+    'Associated Press': 1.0,
+    'BBC News': 0.95,
+    'The New York Times': 0.9,
+    // ... add more sources
+};
 ```
-
-### Adjusting News Sources
-
-Edit `lib/news-service.ts` to change:
-- News categories
-- Countries
-- Number of articles fetched
 
 ---
 
@@ -463,142 +401,114 @@ Edit `lib/news-service.ts` to change:
 
 ### Vercel (Recommended)
 
-1. **Push to GitHub** (already done!)
+1. Push to GitHub
+2. Import at [vercel.com/new](https://vercel.com/new)
+3. Add environment variables
+4. Deploy
 
-2. **Import to Vercel**
-   - Go to [vercel.com](https://vercel.com/)
-   - Click "New Project"
-   - Import `samvitgersappa/newsgraph-ai`
+### Docker
 
-3. **Add Environment Variables**
-   - `NEXT_PUBLIC_NEWS_API_KEY`
-   - `GROQ_API_KEY`
-
-4. **Deploy**
-   - Vercel will auto-deploy on every push to `main`
-
-### Other Platforms
-
-**Netlify:**
-```bash
-npm run build
-# Deploy the .next folder
-```
-
-**Docker:**
 ```dockerfile
 FROM node:18-alpine
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm ci --only=production
 COPY . .
 RUN npm run build
+EXPOSE 3000
 CMD ["npm", "start"]
+```
+
+```bash
+docker build -t newsgraph-ai .
+docker run -p 3000:3000 --env-file .env.local newsgraph-ai
 ```
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Build Errors
-
-**Error: `GROQ_API_KEY is not set`**
-- Ensure `.env.local` exists and contains your key
-- Restart the dev server after adding env vars
-
-**Error: `Module not found`**
-```bash
-rm -rf node_modules package-lock.json
-npm install
-```
-
-### Runtime Issues
-
-**No articles loading:**
-- Check your `NEXT_PUBLIC_NEWS_API_KEY` is valid
-- NewsAPI free tier has rate limits (100 requests/day)
-
-**AI not responding:**
-- Verify `GROQ_API_KEY` is correct
-- Check Groq API status at [status.groq.com](https://status.groq.com/)
-
-**Theme toggle not working:**
-- Clear browser cache
-- Check browser console for errors
+| Issue | Solution |
+|-------|----------|
+| No articles loading | Check `NEXT_PUBLIC_NEWS_API_KEY` is valid |
+| AI not responding | Verify `GROQ_API_KEY` at [console.groq.com](https://console.groq.com) |
+| 3D view not rendering | Ensure WebGL is enabled in browser |
+| Rate limit errors | NewsAPI free tier: 100 req/day |
+| Build errors | Run `rm -rf node_modules && npm install` |
 
 ---
 
 ## 🗺️ Roadmap
 
-### Phase 1: Core Features ✅
-- [x] News aggregation
-- [x] RAG-based context retrieval
-- [x] AI briefing generation
-- [x] Knowledge Graph visualization
-- [x] Light/Dark mode
+### ✅ Completed
+- [x] RAG-based context retrieval with multi-signal scoring
+- [x] 3D Knowledge Graph visualization
+- [x] Historical timeline (1, 3, 5, 10 years)
+- [x] Intelligence Desk with export options
+- [x] Multi-perspective bias analysis
+- [x] Dark/Light theme with Verge-style UI
 
-### Phase 2: Enhancements 🚧
-- [ ] Persistent vector store (Supabase/Pinecone)
-- [ ] User authentication (Clerk/Auth.js)
-- [ ] Save favorite articles
-- [ ] Export briefings to PDF
+### 🚧 In Progress
+- [ ] Persistent vector store (Supabase pgvector)
+- [ ] User authentication
+- [ ] Saved briefings & bookmarks
+
+### 🔮 Future
+- [ ] PDF export for briefings
 - [ ] Email digest subscriptions
-
-### Phase 3: Advanced Features 🔮
-- [ ] Multi-language support
-- [ ] Voice interface (text-to-speech briefings)
-- [ ] Custom news sources
-- [ ] Collaborative annotations
+- [ ] Voice interface (TTS briefings)
 - [ ] Mobile app (React Native)
+- [ ] Custom news source integration
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions are welcome!
 
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/AmazingFeature
-   ```
-3. **Commit your changes**
-   ```bash
-   git commit -m 'Add some AmazingFeature'
-   ```
-4. **Push to the branch**
-   ```bash
-   git push origin feature/AmazingFeature
-   ```
-5. **Open a Pull Request**
+```bash
+# Fork & clone
+git clone https://github.com/YOUR_USERNAME/newsgraph-ai.git
 
-### Development Guidelines
+# Create branch
+git checkout -b feature/amazing-feature
 
+# Make changes & commit
+git commit -m "Add amazing feature"
+
+# Push & open PR
+git push origin feature/amazing-feature
+```
+
+### Guidelines
 - Follow existing code style
-- Add TypeScript types for new functions
-- Test on both light and dark modes
-- Update README if adding features
+- Add TypeScript types
+- Test on both themes
+- Update README for new features
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
 ## 🙏 Acknowledgments
 
-- [NewsAPI](https://newsapi.org/) for news data
-- [Groq](https://groq.com/) for lightning-fast LLM inference
-- [Vercel](https://vercel.com/) for Next.js and hosting
-- [Tailwind Labs](https://tailwindcss.com/) for Tailwind CSS
+- [NewsAPI](https://newsapi.org/) - News data provider
+- [Groq](https://groq.com/) - Lightning-fast LLM inference
+- [Vercel](https://vercel.com/) - Hosting platform
+- [Three.js](https://threejs.org/) - 3D graphics library
+- [The Verge](https://www.theverge.com/) - UI inspiration
 
 ---
 
 <div align="center">
 
 **Built with ❤️ by [Samvit Gersappa](https://github.com/samvitgersappa)**
+
+⭐ Star this repo if you find it useful!
 
 [⬆ Back to Top](#newsgraph-ai-)
 
