@@ -68,40 +68,40 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                         animate={{ opacity: 0.7 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-[#1c1c1c] z-40"
+                        className="fixed inset-0 bg-black/50 dark:bg-[#1c1c1c] z-40"
                     />
                     <motion.div
                         initial={{ x: '100%' }}
                         animate={{ x: 0 }}
                         exit={{ x: '100%' }}
                         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        className="fixed right-0 top-0 bottom-0 w-full md:w-[600px] bg-[#2a2a2a] border-l-4 border-[#00D166] z-50 flex flex-col shadow-2xl"
+                        className="fixed right-0 top-0 bottom-0 w-full md:w-[600px] bg-white dark:bg-[#2a2a2a] border-l-4 border-[#00D166] z-50 flex flex-col shadow-2xl"
                     >
                         {/* Header */}
-                        <div className="p-6 border-b-2 border-[#3a3a3a] bg-[#2a2a2a] z-10">
+                        <div className="p-6 border-b-2 border-[#E7E7E7] dark:border-[#3a3a3a] bg-[#F5F5F5] dark:bg-[#2a2a2a] z-10">
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-3">
                                     <div className="w-1.5 h-8 bg-[#00D166]" />
-                                    <h2 className="text-xl font-bold text-white uppercase tracking-wide">
+                                    <h2 className="text-xl font-bold text-[#1c1c1c] dark:text-white uppercase tracking-wide">
                                         Deep Dive
                                     </h2>
                                 </div>
                                 <button
                                     onClick={onClose}
-                                    className="p-2 hover:bg-[#00D166] text-[#71767A] hover:text-[#1c1c1c] transition-colors"
+                                    className="p-2 hover:bg-[#00D166] text-[#71767A] hover:text-[#1c1c1c] transition-colors border-2 border-transparent hover:border-[#00D166]"
                                 >
                                     <X size={20} />
                                 </button>
                             </div>
 
                             {/* Tabs - The Verge style */}
-                            <div className="flex gap-0 border-2 border-[#3a3a3a]">
+                            <div className="flex gap-0 border-2 border-[#E7E7E7] dark:border-[#3a3a3a]">
                                 <button
                                     onClick={() => setActiveTab('context')}
                                     className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-bold uppercase tracking-wider transition-all ${
                                         activeTab === 'context'
                                             ? 'bg-[#00D166] text-[#1c1c1c]'
-                                            : 'text-[#71767A] hover:text-white hover:bg-[#3a3a3a]'
+                                            : 'text-[#71767A] hover:text-[#1c1c1c] dark:hover:text-white hover:bg-[#E7E7E7] dark:hover:bg-[#3a3a3a]'
                                     }`}
                                 >
                                     <FileText size={16} />
@@ -109,10 +109,10 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('perspectives')}
-                                    className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-bold uppercase tracking-wider transition-all border-l-2 border-[#3a3a3a] ${
+                                    className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-bold uppercase tracking-wider transition-all border-l-2 border-[#E7E7E7] dark:border-[#3a3a3a] ${
                                         activeTab === 'perspectives'
                                             ? 'bg-[#00D166] text-[#1c1c1c]'
-                                            : 'text-[#71767A] hover:text-white hover:bg-[#3a3a3a]'
+                                            : 'text-[#71767A] hover:text-[#1c1c1c] dark:hover:text-white hover:bg-[#E7E7E7] dark:hover:bg-[#3a3a3a]'
                                     }`}
                                 >
                                     <Scale size={16} />
@@ -120,10 +120,10 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('chat')}
-                                    className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-bold uppercase tracking-wider transition-all border-l-2 border-[#3a3a3a] ${
+                                    className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-bold uppercase tracking-wider transition-all border-l-2 border-[#E7E7E7] dark:border-[#3a3a3a] ${
                                         activeTab === 'chat'
                                             ? 'bg-[#00D166] text-[#1c1c1c]'
-                                            : 'text-[#71767A] hover:text-white hover:bg-[#3a3a3a]'
+                                            : 'text-[#71767A] hover:text-[#1c1c1c] dark:hover:text-white hover:bg-[#E7E7E7] dark:hover:bg-[#3a3a3a]'
                                     }`}
                                 >
                                     <MessageSquareIcon size={16} />
@@ -137,8 +137,8 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                             {activeTab === 'context' && (
                                 <div className="p-6">
                                     <div className="mb-8">
-                                        <h3 className="text-2xl font-bold text-white mb-2 leading-tight">{article.title}</h3>
-                                        <p className="text-[#a0a0a0] leading-relaxed">{article.description}</p>
+                                        <h3 className="text-2xl font-bold text-[#1c1c1c] dark:text-white mb-2 leading-tight">{article.title}</h3>
+                                        <p className="text-[#71767A] dark:text-[#a0a0a0] leading-relaxed">{article.description}</p>
                                         <a
                                             href={article.url}
                                             target="_blank"
@@ -154,7 +154,7 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                             Knowledge Timeline Graph
                                             <span className="ml-2 text-[10px] text-[#00dc82] font-mono">(1, 3, 5, 10 Years)</span>
                                         </h4>
-                                        <div className="h-[650px] bg-[#1c1c1c] border-2 border-[#3a3a3a] overflow-hidden">
+                                        <div className="h-[650px] bg-[#F5F5F5] dark:bg-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] overflow-hidden">
                                             {loading ? (
                                                 <div className="flex flex-col items-center justify-center py-12 gap-4">
                                                     <Loader2 className="animate-spin text-[#00D166]" size={32} />
@@ -184,9 +184,9 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                                         initial={{ opacity: 0, y: 10 }}
                                                         animate={{ opacity: 1, y: 0 }}
                                                         transition={{ delay: i * 0.1 }}
-                                                        className="p-4 bg-[#1c1c1c] border-l-4 border-[#00D166] hover:border-[#00E676] transition-colors"
+                                                        className="p-4 bg-[#F5F5F5] dark:bg-[#1c1c1c] border-l-4 border-[#00D166] hover:border-[#00E676] transition-colors"
                                                     >
-                                                        <h5 className="font-bold text-white mb-2">{item.metadata.title}</h5>
+                                                        <h5 className="font-bold text-[#1c1c1c] dark:text-white mb-2">{item.metadata.title}</h5>
                                                         <p className="text-sm text-[#71767A] line-clamp-2">{item.pageContent}</p>
                                                     </motion.div>
                                                 ))}
@@ -219,12 +219,12 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                                 <div className={`w-8 h-8 flex items-center justify-center flex-shrink-0 ${
                                                     msg.role === 'user' ? 'bg-[#00D166]' : 'bg-[#FA3E3E]'
                                                 }`}>
-                                                    {msg.role === 'user' ? <UserIcon size={14} className="text-[#1c1c1c]" /> : <Bot size={14} className="text-white" />}
+                                                    {msg.role === 'user' ? <UserIcon size={14} className="text-[#1c1c1c]" /> : <Bot size={14} className="text-white dark:text-white" />}
                                                 </div>
                                                 <div className={`p-3 max-w-[80%] text-sm ${
                                                     msg.role === 'user' 
                                                         ? 'bg-[#00D166] text-[#1c1c1c]' 
-                                                        : 'bg-[#1c1c1c] text-white border-l-4 border-[#FA3E3E]'
+                                                        : 'bg-[#F5F5F5] dark:bg-[#1c1c1c] text-[#1c1c1c] dark:text-white border-l-4 border-[#FA3E3E]'
                                                 }`}>
                                                     {msg.content}
                                                 </div>
@@ -233,15 +233,15 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                         {chatLoading && (
                                             <div className="flex gap-3">
                                                 <div className="w-8 h-8 bg-[#FA3E3E] flex items-center justify-center flex-shrink-0">
-                                                    <Bot size={14} className="text-white" />
+                                                    <Bot size={14} className="text-white dark:text-white" />
                                                 </div>
-                                                <div className="bg-[#1c1c1c] p-3 border-l-4 border-[#FA3E3E]">
+                                                <div className="bg-[#F5F5F5] dark:bg-[#1c1c1c] p-3 border-l-4 border-[#FA3E3E]">
                                                     <Loader2 className="animate-spin text-[#00D166]" size={16} />
                                                 </div>
                                             </div>
                                         )}
                                     </div>
-                                    <div className="p-4 border-t-2 border-[#3a3a3a] bg-[#2a2a2a]">
+                                    <div className="p-4 border-t-2 border-[#E7E7E7] dark:border-[#3a3a3a] bg-[#F5F5F5] dark:bg-[#2a2a2a]">
                                         <div className="flex gap-3">
                                             <input
                                                 type="text"
@@ -249,7 +249,7 @@ export function DeepDiveSidebar({ article, onClose }: DeepDiveSidebarProps) {
                                                 onChange={(e) => setChatInput(e.target.value)}
                                                 onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
                                                 placeholder="Ask a question..."
-                                                className="flex-1 bg-[#1c1c1c] border-2 border-[#3a3a3a] py-3 px-4 text-white placeholder:text-[#71767A] focus:outline-none focus:border-[#00D166] transition-colors"
+                                                className="flex-1 bg-white dark:bg-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] py-3 px-4 text-[#1c1c1c] dark:text-white placeholder:text-[#71767A] focus:outline-none focus:border-[#00D166] transition-colors"
                                             />
                                             <button
                                                 onClick={handleChatSubmit}

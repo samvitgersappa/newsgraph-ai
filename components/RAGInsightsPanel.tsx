@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-    Brain, 
-    Search, 
-    FileText, 
-    BarChart3, 
-    TrendingUp, 
-    Clock, 
+import {
+    Brain,
+    Search,
+    FileText,
+    BarChart3,
+    TrendingUp,
+    Clock,
     Shield,
     Zap,
     ChevronRight,
@@ -56,7 +56,7 @@ export function RAGInsightsPanel() {
 
     const handleSearch = async () => {
         if (!query.trim()) return;
-        
+
         setLoading(true);
         try {
             const scoredResults = await getRAGScoredResults(query, 8);
@@ -84,35 +84,35 @@ export function RAGInsightsPanel() {
     };
 
     const scoreLabels: Record<keyof RAGResult['breakdown'], { label: string; icon: React.ReactNode; description: string }> = {
-        titleMatch: { 
-            label: 'Title Match', 
+        titleMatch: {
+            label: 'Title Match',
             icon: <FileText size={14} />,
             description: 'How well the query matches the article title - the strongest relevance signal'
         },
-        contentMatch: { 
-            label: 'Content Match', 
+        contentMatch: {
+            label: 'Content Match',
             icon: <Hash size={14} />,
             description: 'Term frequency in article description and content body'
         },
-        phraseMatch: { 
-            label: 'Phrase Match', 
+        phraseMatch: {
+            label: 'Phrase Match',
             icon: <Target size={14} />,
             description: 'Exact multi-word phrase matches (e.g., "climate change" as one phrase)'
         },
-        recency: { 
-            label: 'Recency', 
+        recency: {
+            label: 'Recency',
             icon: <Clock size={14} />,
             description: 'Fresher articles score higher, with decay over time'
         },
-        sourceCredibility: { 
-            label: 'Source Credibility', 
+        sourceCredibility: {
+            label: 'Source Credibility',
             icon: <Shield size={14} />,
             description: 'Pre-defined credibility scores (Reuters: 1.0, The Verge: 0.85, etc.)'
         },
     };
 
     return (
-        <div className="bg-[#2a2a2a] border-2 border-[#3a3a3a] p-6">
+        <div className="bg-white dark:bg-[#2a2a2a] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] p-6">
             {/* Header with Stats */}
             <div className="flex items-start justify-between mb-6">
                 <div className="flex items-center gap-3">
@@ -120,7 +120,7 @@ export function RAGInsightsPanel() {
                         <Brain className="w-7 h-7 text-[#1c1c1c]" />
                     </div>
                     <div>
-                        <h2 className="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                        <h2 className="text-lg font-bold text-[#1c1c1c] dark:text-white uppercase tracking-wider flex items-center gap-2">
                             RAG Engine Insights
                             <Sparkles className="w-4 h-4 text-[#00dc82]" />
                         </h2>
@@ -133,7 +133,7 @@ export function RAGInsightsPanel() {
                 {stats && (
                     <div className="flex gap-4">
                         <div className="text-right">
-                            <p className="text-2xl font-bold text-white">{stats.totalDocuments}</p>
+                            <p className="text-2xl font-bold text-[#1c1c1c] dark:text-white">{stats.totalDocuments}</p>
                             <p className="text-[10px] text-[#71767A] uppercase tracking-wider">Indexed Docs</p>
                         </div>
                         <div className="text-right">
@@ -141,7 +141,7 @@ export function RAGInsightsPanel() {
                             <p className="text-[10px] text-[#71767A] uppercase tracking-wider">Unique Terms</p>
                         </div>
                         <div className="text-right">
-                            <p className="text-2xl font-bold text-white">{stats.avgEntitiesPerDoc.toFixed(1)}</p>
+                            <p className="text-2xl font-bold text-[#1c1c1c] dark:text-white">{stats.avgEntitiesPerDoc.toFixed(1)}</p>
                             <p className="text-[10px] text-[#71767A] uppercase tracking-wider">Avg Entities</p>
                         </div>
                     </div>
@@ -158,7 +158,7 @@ export function RAGInsightsPanel() {
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                         placeholder="Enter a query to see RAG scoring breakdown..."
-                        className="w-full bg-[#1c1c1c] border-2 border-[#3a3a3a] focus:border-[#00dc82] text-white pl-12 pr-4 py-3 outline-none transition-colors"
+                        className="w-full bg-[#F5F5F5] dark:bg-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] focus:border-[#00dc82] text-[#1c1c1c] dark:text-white pl-12 pr-4 py-3 outline-none transition-colors"
                     />
                 </div>
                 <button
@@ -192,12 +192,12 @@ export function RAGInsightsPanel() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="mb-6 p-4 bg-[#1c1c1c] border-l-4 border-[#00dc82] text-sm"
+                        className="mb-6 p-4 bg-[#F5F5F5] dark:bg-[#1c1c1c] border-l-4 border-[#00dc82] text-sm"
                     >
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                             {Object.entries(scoreLabels).map(([key, { label, icon, description }]) => (
                                 <div key={key} className="group">
-                                    <div className="flex items-center gap-2 text-white mb-1">
+                                    <div className="flex items-center gap-2 text-[#1c1c1c] dark:text-white mb-1">
                                         <span className="text-[#00dc82]">{icon}</span>
                                         <span className="font-bold text-xs uppercase tracking-wider">{label}</span>
                                     </div>
@@ -205,9 +205,9 @@ export function RAGInsightsPanel() {
                                 </div>
                             ))}
                         </div>
-                        <div className="mt-4 pt-4 border-t border-[#3a3a3a]">
-                            <p className="text-xs text-[#a0a0a0]">
-                                <strong className="text-white">Final Score Formula:</strong>{' '}
+                        <div className="mt-4 pt-4 border-t border-[#E7E7E7] dark:border-[#3a3a3a]">
+                            <p className="text-xs text-[#71767A] dark:text-[#a0a0a0]">
+                                <strong className="text-[#1c1c1c] dark:text-white">Final Score Formula:</strong>{' '}
                                 <span className="font-mono text-[#00dc82]">
                                     (Title × 0.40) + (Content × 0.25) + (Phrase × 0.15) + (Recency × 0.10) + (Credibility × 0.10)
                                 </span>
@@ -229,18 +229,17 @@ export function RAGInsightsPanel() {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: index * 0.05 }}
                                 onClick={() => setSelectedResult(index)}
-                                className={`p-4 cursor-pointer transition-all ${
-                                    selectedResult === index
-                                        ? 'bg-[#1c1c1c] border-2 border-[#00dc82]'
-                                        : 'bg-[#1c1c1c] border-2 border-[#3a3a3a] hover:border-[#71767A]'
-                                }`}
+                                className={`p-4 cursor-pointer transition-all ${selectedResult === index
+                                        ? 'bg-white dark:bg-[#1c1c1c] border-2 border-[#00dc82]'
+                                        : 'bg-[#F5F5F5] dark:bg-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] hover:border-[#71767A]'
+                                    }`}
                             >
                                 <div className="flex items-start justify-between mb-2">
                                     <div className="flex-1">
                                         <span className="text-[10px] text-[#00dc82] font-mono uppercase tracking-wider">
                                             {result.metadata.source}
                                         </span>
-                                        <h4 className="font-bold text-white text-sm line-clamp-2 mt-1">
+                                        <h4 className="font-bold text-[#1c1c1c] dark:text-white text-sm line-clamp-2 mt-1">
                                             {result.metadata.title}
                                         </h4>
                                     </div>
@@ -256,8 +255,8 @@ export function RAGInsightsPanel() {
                                 <div className="flex gap-1 mt-3">
                                     {Object.entries(result.breakdown).map(([key, value]) => (
                                         <div key={key} className="flex-1">
-                                            <div className="h-1 bg-[#3a3a3a]">
-                                                <div 
+                                            <div className="h-1 bg-[#E7E7E7] dark:bg-[#3a3a3a]">
+                                                <div
                                                     className={`h-full ${getScoreBarColor(value)}`}
                                                     style={{ width: `${value * 100}%` }}
                                                 />
@@ -274,14 +273,14 @@ export function RAGInsightsPanel() {
                         <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            className="bg-[#1c1c1c] border-2 border-[#00dc82] p-4"
+                            className="bg-white dark:bg-[#1c1c1c] border-2 border-[#00dc82] p-4"
                         >
                             <div className="flex items-center gap-2 mb-4">
                                 <BarChart3 className="text-[#00dc82]" size={18} />
-                                <span className="text-sm font-bold text-white uppercase tracking-wider">Score Breakdown</span>
+                                <span className="text-sm font-bold text-[#1c1c1c] dark:text-white uppercase tracking-wider">Score Breakdown</span>
                             </div>
 
-                            <div className="text-center mb-6 py-4 border-b border-[#3a3a3a]">
+                            <div className="text-center mb-6 py-4 border-b border-[#E7E7E7] dark:border-[#3a3a3a]">
                                 <div className={`text-5xl font-bold ${getScoreColor(results[selectedResult].score)}`}>
                                     {(results[selectedResult].score * 100).toFixed(0)}%
                                 </div>
@@ -302,8 +301,8 @@ export function RAGInsightsPanel() {
                                                     {(value * 100).toFixed(0)}%
                                                 </span>
                                             </div>
-                                            <div className="h-2 bg-[#3a3a3a]">
-                                                <motion.div 
+                                            <div className="h-2 bg-[#E7E7E7] dark:bg-[#3a3a3a]">
+                                                <motion.div
                                                     initial={{ width: 0 }}
                                                     animate={{ width: `${value * 100}%` }}
                                                     className={`h-full ${getScoreBarColor(value)}`}
@@ -314,7 +313,7 @@ export function RAGInsightsPanel() {
                                 })}
                             </div>
 
-                            <div className="mt-6 pt-4 border-t border-[#3a3a3a]">
+                            <div className="mt-6 pt-4 border-t border-[#E7E7E7] dark:border-[#3a3a3a]">
                                 <a
                                     href={results[selectedResult].metadata.url}
                                     target="_blank"
@@ -332,7 +331,7 @@ export function RAGInsightsPanel() {
             {/* Empty State */}
             {results.length === 0 && !loading && query && (
                 <div className="text-center py-12">
-                    <Database size={48} className="mx-auto mb-4 text-[#3a3a3a]" />
+                    <Database size={48} className="mx-auto mb-4 text-[#71767A] dark:text-[#3a3a3a]" />
                     <p className="text-[#71767A] uppercase tracking-wider text-sm">No results found</p>
                     <p className="text-[#3a3a3a] text-xs mt-2">Try a different query or index more documents</p>
                 </div>
@@ -341,7 +340,7 @@ export function RAGInsightsPanel() {
             {/* Initial State */}
             {results.length === 0 && !loading && !query && (
                 <div className="text-center py-12">
-                    <Network size={48} className="mx-auto mb-4 text-[#3a3a3a]" />
+                    <Network size={48} className="mx-auto mb-4 text-[#71767A] dark:text-[#3a3a3a]" />
                     <p className="text-[#71767A] uppercase tracking-wider text-sm">Enter a query to analyze RAG scoring</p>
                     <p className="text-[#3a3a3a] text-xs mt-2">See how documents are ranked with multi-signal scoring</p>
                 </div>

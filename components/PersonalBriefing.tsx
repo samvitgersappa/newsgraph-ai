@@ -3,8 +3,8 @@
 import { useState, useCallback } from 'react';
 import { generateBriefingAction } from '@/app/actions';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-    Sparkles, Loader2, Eye, FileText, Copy, Download, Share2, 
+import {
+    Sparkles, Loader2, Eye, FileText, Copy, Download, Share2,
     Bookmark, Clock, TrendingUp, Globe2, Brain, Zap, ChevronRight,
     CheckCircle2, Circle, ArrowRight, RotateCcw, Maximize2, Minimize2,
     Target, Lightbulb, AlertTriangle, Calendar, Star
@@ -162,7 +162,7 @@ export function PersonalBriefing() {
     return (
         <div className={`w-full mx-auto mt-8 transition-all duration-300 ${isExpanded ? 'max-w-6xl' : 'max-w-4xl'}`}>
             <div className="p-8 bg-white dark:bg-[#2a2a2a] border-2 border-[#E7E7E7] dark:border-[#3a3a3a]">
-                
+
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-6">
                     <div className="p-3 bg-[#00dc82]">
@@ -183,7 +183,7 @@ export function PersonalBriefing() {
                             className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${!isMultiPerspective
                                 ? 'bg-[#00dc82] text-[#1c1c1c]'
                                 : 'bg-transparent text-[#71767A] hover:text-[#1c1c1c] dark:hover:text-white'
-                            }`}
+                                }`}
                         >
                             <FileText size={14} />
                             Briefing
@@ -193,7 +193,7 @@ export function PersonalBriefing() {
                             className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all border-l-2 border-[#1c1c1c] dark:border-white/20 flex items-center gap-1.5 ${isMultiPerspective
                                 ? 'bg-[#00dc82] text-[#1c1c1c]'
                                 : 'bg-transparent text-[#71767A] hover:text-[#1c1c1c] dark:hover:text-white'
-                            }`}
+                                }`}
                         >
                             <Eye size={14} />
                             Multi-View
@@ -315,33 +315,33 @@ export function PersonalBriefing() {
                                     </span>
                                 )}
                             </div>
-                            
+
                             {/* Action Buttons */}
                             <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => setIsBookmarked(!isBookmarked)}
-                                    className={`p-2 border transition-all ${isBookmarked ? 'bg-[#00dc82] border-[#00dc82] text-[#1c1c1c]' : 'bg-transparent border-[#3a3a3a] text-[#71767A] hover:border-[#00dc82] hover:text-[#00dc82]'}`}
+                                    className={`p-2 border transition-all ${isBookmarked ? 'bg-[#00dc82] border-[#00dc82] text-[#1c1c1c]' : 'bg-transparent border-[#E7E7E7] dark:border-[#3a3a3a] text-[#71767A] hover:border-[#00dc82] hover:text-[#00dc82]'}`}
                                     title="Bookmark"
                                 >
                                     <Bookmark size={14} fill={isBookmarked ? 'currentColor' : 'none'} />
                                 </button>
                                 <button
                                     onClick={handleCopy}
-                                    className="p-2 bg-transparent border border-[#3a3a3a] text-[#71767A] hover:border-[#00dc82] hover:text-[#00dc82] transition-all"
+                                    className="p-2 bg-transparent border border-[#E7E7E7] dark:border-[#3a3a3a] text-[#71767A] hover:border-[#00dc82] hover:text-[#00dc82] transition-all"
                                     title="Copy to Clipboard"
                                 >
                                     {isCopied ? <CheckCircle2 size={14} /> : <Copy size={14} />}
                                 </button>
                                 <button
                                     onClick={handleDownload}
-                                    className="p-2 bg-transparent border border-[#3a3a3a] text-[#71767A] hover:border-[#00dc82] hover:text-[#00dc82] transition-all"
+                                    className="p-2 bg-transparent border border-[#E7E7E7] dark:border-[#3a3a3a] text-[#71767A] hover:border-[#00dc82] hover:text-[#00dc82] transition-all"
                                     title="Download as Markdown"
                                 >
                                     <Download size={14} />
                                 </button>
                                 <button
                                     onClick={handleShare}
-                                    className="p-2 bg-transparent border border-[#3a3a3a] text-[#71767A] hover:border-[#00dc82] hover:text-[#00dc82] transition-all"
+                                    className="p-2 bg-transparent border border-[#E7E7E7] dark:border-[#3a3a3a] text-[#71767A] hover:border-[#00dc82] hover:text-[#00dc82] transition-all"
                                     title="Share"
                                 >
                                     <Share2 size={14} />
@@ -353,7 +353,7 @@ export function PersonalBriefing() {
                         {parseSections(briefing).map((section, index) => {
                             const iconKey = Object.keys(SECTION_ICONS).find(k => section.cleanTitle.includes(k));
                             const icon = iconKey ? SECTION_ICONS[iconKey] : <ChevronRight size={18} />;
-                            
+
                             return (
                                 <motion.div
                                     key={index}
@@ -374,7 +374,7 @@ export function PersonalBriefing() {
                                             Section {index + 1}
                                         </span>
                                     </div>
-                                    
+
                                     {/* Section Content */}
                                     <div className="px-6 py-5">
                                         <div className="prose prose-zinc dark:prose-invert prose-sm max-w-none 
@@ -397,7 +397,7 @@ export function PersonalBriefing() {
                             <button
                                 onClick={handleGenerate}
                                 disabled={loading}
-                                className="flex items-center gap-2 px-6 py-3 bg-transparent border-2 border-[#3a3a3a] text-[#71767A] hover:border-[#00dc82] hover:text-[#00dc82] font-bold uppercase tracking-wider transition-all"
+                                className="flex items-center gap-2 px-6 py-3 bg-transparent border-2 border-[#E7E7E7] dark:border-[#3a3a3a] text-[#71767A] hover:border-[#00dc82] hover:text-[#00dc82] font-bold uppercase tracking-wider transition-all"
                             >
                                 <RotateCcw size={16} />
                                 Regenerate Briefing

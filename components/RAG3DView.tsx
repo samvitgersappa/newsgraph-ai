@@ -5,14 +5,14 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Text, Html, Line, Sphere, Box } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
-import { 
-    Brain, 
-    Search, 
-    Zap, 
-    Network, 
-    Eye, 
-    RotateCcw, 
-    Maximize2, 
+import {
+    Brain,
+    Search,
+    Zap,
+    Network,
+    Eye,
+    RotateCcw,
+    Maximize2,
     Minimize2,
     Info,
     FileText,
@@ -63,31 +63,31 @@ interface RAGEdge {
 function generateNodePositions(count: number): [number, number, number][] {
     const positions: [number, number, number][] = [];
     const goldenRatio = (1 + Math.sqrt(5)) / 2;
-    
+
     for (let i = 0; i < count; i++) {
         const theta = 2 * Math.PI * i / goldenRatio;
         const phi = Math.acos(1 - 2 * (i + 0.5) / count);
         const radius = 3 + (i * 0.3); // Spread out based on index (relevance)
-        
+
         const x = radius * Math.sin(phi) * Math.cos(theta);
         const y = radius * Math.cos(phi);
         const z = radius * Math.sin(phi) * Math.sin(theta);
-        
+
         positions.push([x, y, z]);
     }
-    
+
     return positions;
 }
 
 // Generate edges based on source similarity
 function generateEdges(nodes: RAGNode[]): RAGEdge[] {
     const edges: RAGEdge[] = [];
-    
+
     for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
             const node1 = nodes[i];
             const node2 = nodes[j];
-            
+
             // Source similarity
             if (node1.source === node2.source) {
                 edges.push({
@@ -97,7 +97,7 @@ function generateEdges(nodes: RAGNode[]): RAGEdge[] {
                     type: 'source'
                 });
             }
-            
+
             // Score similarity (connect nodes with similar relevance)
             const scoreDiff = Math.abs(node1.score - node2.score);
             if (scoreDiff < 0.15) {
@@ -110,7 +110,7 @@ function generateEdges(nodes: RAGNode[]): RAGEdge[] {
             }
         }
     }
-    
+
     return edges;
 }
 
@@ -130,25 +130,25 @@ interface ArticleNodeProps {
 function ArticleNode({ node, isSelected, isHovered, onSelect, onHover, queryNode }: ArticleNodeProps) {
     const meshRef = useRef<THREE.Mesh>(null);
     const glowRef = useRef<THREE.Mesh>(null);
-    
+
     // Animate the node
     useFrame((state) => {
         if (meshRef.current) {
             // Gentle floating animation
             meshRef.current.position.y = node.position[1] + Math.sin(state.clock.elapsedTime + parseInt(node.id)) * 0.1;
-            
+
             // Scale on hover
             const targetScale = isHovered || isSelected ? 1.3 : 1;
             meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
         }
-        
+
         if (glowRef.current) {
             // Pulse the glow
             const pulse = 0.5 + Math.sin(state.clock.elapsedTime * 2) * 0.2;
             glowRef.current.scale.setScalar((isSelected ? 2.5 : 2) + pulse * 0.5);
         }
     });
-    
+
     // Color based on score
     const getNodeColor = () => {
         if (queryNode) return '#00dc82';
@@ -157,21 +157,21 @@ function ArticleNode({ node, isSelected, isHovered, onSelect, onHover, queryNode
         if (node.score > 0.4) return '#FF8C00';
         return '#FF4444';
     };
-    
+
     const nodeSize = 0.3 + node.score * 0.3;
-    
+
     return (
         <group position={node.position}>
             {/* Glow effect */}
             <mesh ref={glowRef}>
                 <sphereGeometry args={[nodeSize * 1.5, 16, 16]} />
-                <meshBasicMaterial 
-                    color={getNodeColor()} 
-                    transparent 
-                    opacity={isSelected ? 0.3 : 0.1} 
+                <meshBasicMaterial
+                    color={getNodeColor()}
+                    transparent
+                    opacity={isSelected ? 0.3 : 0.1}
                 />
             </mesh>
-            
+
             {/* Main node */}
             <mesh
                 ref={meshRef}
@@ -192,7 +192,7 @@ function ArticleNode({ node, isSelected, isHovered, onSelect, onHover, queryNode
                     roughness={0.2}
                 />
             </mesh>
-            
+
             {/* Label */}
             {(isHovered || isSelected) && (
                 <Html
@@ -203,9 +203,9 @@ function ArticleNode({ node, isSelected, isHovered, onSelect, onHover, queryNode
                         width: '200px',
                     }}
                 >
-                    <div className="bg-[#2a2a2a] border-2 border-[#00dc82] p-3 shadow-xl">
+                    <div className="bg-white dark:bg-[#2a2a2a] border-2 border-[#00dc82] p-3 shadow-xl">
                         <p className="text-xs text-[#00dc82] font-mono mb-1">{node.source}</p>
-                        <p className="text-sm text-white font-bold line-clamp-2">{node.title}</p>
+                        <p className="text-sm text-[#1c1c1c] dark:text-white font-bold line-clamp-2">{node.title}</p>
                         <p className="text-xs text-[#71767A] mt-2">
                             Score: <span className="text-[#00dc82]">{(node.score * 100).toFixed(0)}%</span>
                         </p>
@@ -234,7 +234,7 @@ function EdgeLine({ start, end, weight, type, isHighlighted }: EdgeLineProps) {
             default: return '#4B5563';
         }
     };
-    
+
     return (
         <Line
             points={[start, end]}
@@ -251,14 +251,14 @@ function EdgeLine({ start, end, weight, type, isHighlighted }: EdgeLineProps) {
 
 function QueryNode({ position, label }: { position: [number, number, number]; label?: string }) {
     const meshRef = useRef<THREE.Mesh>(null);
-    
+
     useFrame((state) => {
         if (meshRef.current) {
             meshRef.current.rotation.y = state.clock.elapsedTime * 0.5;
             meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime) * 0.2;
         }
     });
-    
+
     return (
         <group position={position}>
             <mesh ref={meshRef}>
@@ -298,13 +298,13 @@ interface RAGSceneProps {
 
 function RAGScene({ nodes, edges, selectedNode, hoveredNode, onSelectNode, onHoverNode, showQuery, queryLabel }: RAGSceneProps) {
     const { camera } = useThree();
-    
+
     // Get node position by id
     const getNodePosition = (id: string): [number, number, number] => {
         const node = nodes.find(n => n.id === id);
         return node ? node.position : [0, 0, 0];
     };
-    
+
     return (
         <>
             {/* Lighting */}
@@ -318,13 +318,13 @@ function RAGScene({ nodes, edges, selectedNode, hoveredNode, onSelectNode, onHov
                 intensity={0.5}
                 color="#00dc82"
             />
-            
+
             {/* Grid */}
             <gridHelper args={[20, 20, '#3a3a3a', '#2a2a2a']} position={[0, -5, 0]} />
-            
+
             {/* Query node */}
             {showQuery && <QueryNode position={[0, 4, 0]} label={queryLabel} />}
-            
+
             {/* Edges */}
             {edges.map((edge, i) => (
                 <EdgeLine
@@ -336,7 +336,7 @@ function RAGScene({ nodes, edges, selectedNode, hoveredNode, onSelectNode, onHov
                     isHighlighted={selectedNode === edge.from || selectedNode === edge.to}
                 />
             ))}
-            
+
             {/* Query connections */}
             {showQuery && nodes.map((node, i) => (
                 <EdgeLine
@@ -348,7 +348,7 @@ function RAGScene({ nodes, edges, selectedNode, hoveredNode, onSelectNode, onHov
                     isHighlighted={selectedNode === node.id}
                 />
             ))}
-            
+
             {/* Article nodes */}
             {nodes.map((node) => (
                 <ArticleNode
@@ -360,7 +360,7 @@ function RAGScene({ nodes, edges, selectedNode, hoveredNode, onSelectNode, onHov
                     onHover={(hovered) => onHoverNode(hovered ? node.id : null)}
                 />
             ))}
-            
+
             {/* Camera controls */}
             <OrbitControls
                 enablePan={true}
@@ -394,21 +394,21 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
     const [showInfo, setShowInfo] = useState(false);
     const [nodes, setNodes] = useState<RAGNode[]>([]);
     const [error, setError] = useState<string | null>(null);
-    
+
     const edges = useMemo(() => generateEdges(nodes), [nodes]);
-    
+
     const selectedNodeData = nodes.find((n: RAGNode) => n.id === selectedNode);
-    
+
     const handleSearch = useCallback(async () => {
         if (!searchQuery.trim()) return;
-        
+
         setIsLoading(true);
         setError(null);
         setSelectedNode(null);
-        
+
         try {
             const articles = await fetchRAGArticlesForQuery(searchQuery);
-            
+
             if (articles.length === 0) {
                 setError(`No articles found for "${searchQuery}". Try a different topic.`);
                 setNodes([]);
@@ -416,7 +416,7 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
             } else {
                 // Generate positions for nodes
                 const positions = generateNodePositions(articles.length);
-                
+
                 const nodesWithPositions: RAGNode[] = articles.map((article: any, i: number) => ({
                     id: article.id,
                     title: article.title,
@@ -428,7 +428,7 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
                     url: article.url,
                     description: article.description,
                 }));
-                
+
                 setNodes(nodesWithPositions);
                 setCurrentQuery(searchQuery);
                 setShowQuery(true);
@@ -442,25 +442,25 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
             setIsLoading(false);
         }
     }, [searchQuery]);
-    
+
     // Handle Enter key
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
             handleSearch();
         }
     };
-    
+
     return (
-        <div className={`${isFullscreen ? 'fixed inset-0 z-50' : 'relative w-full'} bg-[#1c1c1c]`}>
+        <div className={`${isFullscreen ? 'fixed inset-0 z-50' : 'relative w-full'} bg-[#F5F5F5] dark:bg-[#1c1c1c]`}>
             {/* Header */}
-            <div className="absolute top-0 left-0 right-0 z-20 p-4 bg-gradient-to-b from-[#1c1c1c] to-transparent">
+            <div className="absolute top-0 left-0 right-0 z-20 p-4 bg-gradient-to-b from-[#F5F5F5] dark:from-[#1c1c1c] to-transparent">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-[#00dc82] flex items-center justify-center">
                             <Brain className="w-6 h-6 text-[#1c1c1c]" />
                         </div>
                         <div>
-                            <h2 className="text-lg font-bold text-white uppercase tracking-wider">
+                            <h2 className="text-lg font-bold text-[#1c1c1c] dark:text-white uppercase tracking-wider">
                                 3D RAG Knowledge Graph
                             </h2>
                             <p className="text-xs text-[#71767A]">
@@ -468,23 +468,23 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
                             </p>
                         </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-2">
                         <button
                             onClick={() => setShowInfo(!showInfo)}
-                            className="p-2 bg-[#2a2a2a] hover:bg-[#00dc82] text-white hover:text-[#1c1c1c] border-2 border-[#3a3a3a] hover:border-[#00dc82] transition-all"
+                            className="p-2 bg-white dark:bg-[#2a2a2a] hover:bg-[#00dc82] text-[#1c1c1c] dark:text-white hover:text-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] hover:border-[#00dc82] transition-all"
                         >
                             <Info size={16} />
                         </button>
                         <button
                             onClick={() => setIsFullscreen(!isFullscreen)}
-                            className="p-2 bg-[#2a2a2a] hover:bg-[#00dc82] text-white hover:text-[#1c1c1c] border-2 border-[#3a3a3a] hover:border-[#00dc82] transition-all"
+                            className="p-2 bg-white dark:bg-[#2a2a2a] hover:bg-[#00dc82] text-[#1c1c1c] dark:text-white hover:text-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] hover:border-[#00dc82] transition-all"
                         >
                             {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
                         </button>
                     </div>
                 </div>
-                
+
                 {/* Search Bar */}
                 <div className="flex gap-2 max-w-xl">
                     <div className="flex-1 relative">
@@ -495,7 +495,7 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
                             onChange={(e) => setSearchQuery(e.target.value)}
                             onKeyDown={handleKeyDown}
                             placeholder="Enter a topic (e.g., climate change, bitcoin, elections)..."
-                            className="w-full bg-[#2a2a2a] border-2 border-[#3a3a3a] focus:border-[#00dc82] text-white pl-10 pr-4 py-2 outline-none transition-colors"
+                            className="w-full bg-white dark:bg-[#2a2a2a] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] focus:border-[#00dc82] text-[#1c1c1c] dark:text-white pl-10 pr-4 py-2 outline-none transition-colors"
                         />
                     </div>
                     <button
@@ -513,7 +513,7 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
                         )}
                     </button>
                 </div>
-                
+
                 {/* Error Message */}
                 {error && (
                     <div className="mt-3 flex items-center gap-2 text-[#FF4444] text-sm">
@@ -522,7 +522,7 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
                     </div>
                 )}
             </div>
-            
+
             {/* Info Panel */}
             <AnimatePresence>
                 {showInfo && (
@@ -530,32 +530,32 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -20 }}
-                        className="absolute top-40 left-4 z-20 w-80 bg-[#2a2a2a] border-2 border-[#3a3a3a] p-4"
+                        className="absolute top-40 left-4 z-20 w-80 bg-white dark:bg-[#2a2a2a] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] p-4 shadow-lg"
                     >
-                        <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-sm font-bold text-[#1c1c1c] dark:text-white mb-3 flex items-center gap-2">
                             <Network size={16} className="text-[#00dc82]" />
                             How RAG Works
                         </h3>
-                        <div className="space-y-3 text-xs text-[#a0a0a0]">
+                        <div className="space-y-3 text-xs text-[#71767A] dark:text-[#a0a0a0]">
                             <div className="flex gap-2">
                                 <Database className="text-[#00dc82] flex-shrink-0" size={14} />
-                                <p><strong className="text-white">Fetch:</strong> Articles are retrieved from news APIs based on your query</p>
+                                <p><strong className="text-[#1c1c1c] dark:text-white">Fetch:</strong> Articles are retrieved from news APIs based on your query</p>
                             </div>
                             <div className="flex gap-2">
                                 <Search className="text-[#00dc82] flex-shrink-0" size={14} />
-                                <p><strong className="text-white">Filter:</strong> AI strictly filters for articles DIRECTLY about your topic</p>
+                                <p><strong className="text-[#1c1c1c] dark:text-white">Filter:</strong> AI strictly filters for articles DIRECTLY about your topic</p>
                             </div>
                             <div className="flex gap-2">
                                 <Target className="text-[#00dc82] flex-shrink-0" size={14} />
-                                <p><strong className="text-white">Score:</strong> Each article is scored for relevance (TF-IDF, recency, credibility)</p>
+                                <p><strong className="text-[#1c1c1c] dark:text-white">Score:</strong> Each article is scored for relevance (TF-IDF, recency, credibility)</p>
                             </div>
                             <div className="flex gap-2">
                                 <GitBranch className="text-[#00dc82] flex-shrink-0" size={14} />
-                                <p><strong className="text-white">Connect:</strong> Edges show relationships between related articles</p>
+                                <p><strong className="text-[#1c1c1c] dark:text-white">Connect:</strong> Edges show relationships between related articles</p>
                             </div>
                         </div>
-                        
-                        <div className="mt-4 pt-4 border-t border-[#3a3a3a]">
+
+                        <div className="mt-4 pt-4 border-t border-[#E7E7E7] dark:border-[#3a3a3a]">
                             <p className="text-xs text-[#71767A] mb-2">Score Legend:</p>
                             <div className="flex flex-wrap gap-2">
                                 <span className="flex items-center gap-1 text-xs">
@@ -575,7 +575,7 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
                     </motion.div>
                 )}
             </AnimatePresence>
-            
+
             {/* Selected Node Details */}
             <AnimatePresence>
                 {selectedNodeData && (
@@ -583,7 +583,7 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 20 }}
-                        className="absolute top-40 right-4 z-20 w-80 bg-[#2a2a2a] border-2 border-[#00dc82] p-4"
+                        className="absolute top-40 right-4 z-20 w-80 bg-white dark:bg-[#2a2a2a] border-2 border-[#00dc82] p-4 shadow-lg"
                     >
                         <div className="flex items-start justify-between mb-3">
                             <div className="flex items-center gap-2">
@@ -597,47 +597,47 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
                                 ×
                             </button>
                         </div>
-                        
-                        <h4 className="text-sm font-bold text-white mb-2 leading-tight">
+
+                        <h4 className="text-sm font-bold text-[#1c1c1c] dark:text-white mb-2 leading-tight">
                             {selectedNodeData.title}
                         </h4>
-                        
+
                         {selectedNodeData.description && (
-                            <p className="text-xs text-[#a0a0a0] mb-3 line-clamp-2">
+                            <p className="text-xs text-[#71767A] dark:text-[#a0a0a0] mb-3 line-clamp-2">
                                 {selectedNodeData.description}
                             </p>
                         )}
-                        
+
                         <div className="space-y-2 mb-4">
                             <div className="flex justify-between text-xs">
                                 <span className="text-[#71767A]">Relevance Score</span>
                                 <span className="text-[#00dc82] font-bold">{(selectedNodeData.score * 100).toFixed(0)}%</span>
                             </div>
-                            <div className="h-2 bg-[#1c1c1c] overflow-hidden">
-                                <div 
-                                    className="h-full bg-[#00dc82]" 
-                                    style={{ width: `${selectedNodeData.score * 100}%` }} 
+                            <div className="h-2 bg-[#E7E7E7] dark:bg-[#1c1c1c] overflow-hidden">
+                                <div
+                                    className="h-full bg-[#00dc82]"
+                                    style={{ width: `${selectedNodeData.score * 100}%` }}
                                 />
                             </div>
                         </div>
-                        
+
                         <div className="space-y-2 text-xs">
                             <p className="text-[#71767A] font-bold uppercase tracking-wider mb-2">Score Breakdown</p>
                             {Object.entries(selectedNodeData.breakdown).map(([key, value]) => (
                                 <div key={key} className="flex items-center gap-2">
-                                    <span className="text-[#a0a0a0] w-24 capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
-                                    <div className="flex-1 h-1.5 bg-[#1c1c1c]">
-                                        <div 
-                                            className="h-full bg-[#00dc82]" 
-                                            style={{ width: `${(value as number) * 100}%` }} 
+                                    <span className="text-[#71767A] dark:text-[#a0a0a0] w-24 capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
+                                    <div className="flex-1 h-1.5 bg-[#E7E7E7] dark:bg-[#1c1c1c]">
+                                        <div
+                                            className="h-full bg-[#00dc82]"
+                                            style={{ width: `${(value as number) * 100}%` }}
                                         />
                                     </div>
                                     <span className="text-[#00dc82] w-10 text-right">{((value as number) * 100).toFixed(0)}%</span>
                                 </div>
                             ))}
                         </div>
-                        
-                        <div className="mt-4 pt-4 border-t border-[#3a3a3a]">
+
+                        <div className="mt-4 pt-4 border-t border-[#E7E7E7] dark:border-[#3a3a3a]">
                             <a
                                 href={selectedNodeData.url}
                                 target="_blank"
@@ -650,20 +650,20 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
                     </motion.div>
                 )}
             </AnimatePresence>
-            
+
             {/* Stats Bar */}
             <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between">
                 <div className="flex gap-4">
-                    <div className="bg-[#2a2a2a] border-2 border-[#3a3a3a] px-3 py-2">
+                    <div className="bg-white dark:bg-[#2a2a2a] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] px-3 py-2 shadow-sm">
                         <p className="text-[10px] text-[#71767A] uppercase tracking-wider">Documents</p>
-                        <p className="text-lg font-bold text-white">{nodes.length}</p>
+                        <p className="text-lg font-bold text-[#1c1c1c] dark:text-white">{nodes.length}</p>
                     </div>
-                    <div className="bg-[#2a2a2a] border-2 border-[#3a3a3a] px-3 py-2">
+                    <div className="bg-white dark:bg-[#2a2a2a] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] px-3 py-2 shadow-sm">
                         <p className="text-[10px] text-[#71767A] uppercase tracking-wider">Connections</p>
-                        <p className="text-lg font-bold text-white">{edges.length}</p>
+                        <p className="text-lg font-bold text-[#1c1c1c] dark:text-white">{edges.length}</p>
                     </div>
                     {nodes.length > 0 && (
-                        <div className="bg-[#2a2a2a] border-2 border-[#3a3a3a] px-3 py-2">
+                        <div className="bg-white dark:bg-[#2a2a2a] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] px-3 py-2 shadow-sm">
                             <p className="text-[10px] text-[#71767A] uppercase tracking-wider">Avg Score</p>
                             <p className="text-lg font-bold text-[#00dc82]">
                                 {(nodes.reduce((sum: number, n: RAGNode) => sum + n.score, 0) / nodes.length * 100).toFixed(0)}%
@@ -671,36 +671,36 @@ export function RAG3DView({ onClose }: RAG3DViewProps) {
                         </div>
                     )}
                 </div>
-                
+
                 <div className="text-xs text-[#71767A]">
-                    <span className="text-[#00dc82]">Drag</span> to rotate • 
-                    <span className="text-[#00dc82]"> Scroll</span> to zoom • 
+                    <span className="text-[#00dc82]">Drag</span> to rotate •
+                    <span className="text-[#00dc82]"> Scroll</span> to zoom •
                     <span className="text-[#00dc82]"> Click</span> nodes to inspect
                 </div>
             </div>
-            
+
             {/* Empty State */}
             {nodes.length === 0 && !isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center z-10">
                     <div className="text-center">
-                        <Database size={64} className="mx-auto mb-4 text-[#3a3a3a]" />
+                        <Database size={64} className="mx-auto mb-4 text-[#71767A] dark:text-[#3a3a3a]" />
                         <p className="text-[#71767A] text-lg uppercase tracking-wider mb-2">No Articles Loaded</p>
-                        <p className="text-[#3a3a3a] text-sm">Enter a topic above and click "Retrieve" to visualize related articles</p>
+                        <p className="text-[#71767A] dark:text-[#3a3a3a] text-sm">Enter a topic above and click "Retrieve" to visualize related articles</p>
                     </div>
                 </div>
             )}
-            
+
             {/* Loading State */}
             {isLoading && (
-                <div className="absolute inset-0 flex items-center justify-center z-10 bg-[#1c1c1c]/80">
+                <div className="absolute inset-0 flex items-center justify-center z-10 bg-white/80 dark:bg-[#1c1c1c]/80">
                     <div className="text-center">
                         <Loader2 size={48} className="mx-auto mb-4 text-[#00dc82] animate-spin" />
-                        <p className="text-white text-lg uppercase tracking-wider">Retrieving Articles...</p>
+                        <p className="text-[#1c1c1c] dark:text-white text-lg uppercase tracking-wider">Retrieving Articles...</p>
                         <p className="text-[#71767A] text-sm mt-2">Filtering for relevance to "{searchQuery}"</p>
                     </div>
                 </div>
             )}
-            
+
             {/* 3D Canvas */}
             <div className={`${isFullscreen ? 'h-screen' : 'h-[700px]'} w-full`}>
                 <Canvas

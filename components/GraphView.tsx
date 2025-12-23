@@ -4,8 +4,8 @@ import { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { format, formatDistanceToNow } from 'date-fns';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import { 
-    ZoomIn, ZoomOut, RotateCcw, ExternalLink, Maximize2, Minimize2, 
+import {
+    ZoomIn, ZoomOut, RotateCcw, ExternalLink, Maximize2, Minimize2,
     FileText, Calendar, Clock, History, Search, Loader2, Filter,
     TrendingUp
 } from 'lucide-react';
@@ -47,38 +47,38 @@ interface GraphViewProps {
 // ============================================================================
 
 const TIMEFRAMES: Record<TimeframeKey, { label: string; yearsAgo: number; color: string; bgColor: string; icon: React.ReactNode }> = {
-    current: { 
-        label: 'Current', 
-        yearsAgo: 0, 
-        color: '#00dc82', 
+    current: {
+        label: 'Current',
+        yearsAgo: 0,
+        color: '#00dc82',
         bgColor: 'rgba(0, 220, 130, 0.15)',
         icon: <TrendingUp size={14} />
     },
-    '1year': { 
-        label: '1 Year', 
-        yearsAgo: 1, 
-        color: '#3B82F6', 
+    '1year': {
+        label: '1 Year',
+        yearsAgo: 1,
+        color: '#3B82F6',
         bgColor: 'rgba(59, 130, 246, 0.15)',
         icon: <Clock size={14} />
     },
-    '3years': { 
-        label: '3 Years', 
-        yearsAgo: 3, 
-        color: '#8B5CF6', 
+    '3years': {
+        label: '3 Years',
+        yearsAgo: 3,
+        color: '#8B5CF6',
         bgColor: 'rgba(139, 92, 246, 0.15)',
         icon: <History size={14} />
     },
-    '5years': { 
-        label: '5 Years', 
-        yearsAgo: 5, 
-        color: '#F59E0B', 
+    '5years': {
+        label: '5 Years',
+        yearsAgo: 5,
+        color: '#F59E0B',
         bgColor: 'rgba(245, 158, 11, 0.15)',
         icon: <Calendar size={14} />
     },
-    '10years': { 
-        label: '10 Years', 
-        yearsAgo: 10, 
-        color: '#EF4444', 
+    '10years': {
+        label: '10 Years',
+        yearsAgo: 10,
+        color: '#EF4444',
         bgColor: 'rgba(239, 68, 68, 0.15)',
         icon: <History size={14} />
     },
@@ -97,11 +97,11 @@ function categorizeByTimeframe(articles: any[]): Record<TimeframeKey, any[]> {
         '5years': [],
         '10years': [],
     };
-    
+
     articles.forEach(article => {
         const publishedAt = new Date(article.metadata?.publishedAt || article.publishedAt);
         const yearsDiff = (now.getTime() - publishedAt.getTime()) / (1000 * 60 * 60 * 24 * 365);
-        
+
         // Check if it's marked as historical
         if (article.metadata?.isHistorical) {
             const title = article.metadata?.title || '';
@@ -112,14 +112,14 @@ function categorizeByTimeframe(articles: any[]): Record<TimeframeKey, any[]> {
             else result['5years'].push(article); // Default historical to 5 years
             return;
         }
-        
+
         if (yearsDiff < 0.25) result.current.push(article);
         else if (yearsDiff < 2) result['1year'].push(article);
         else if (yearsDiff < 4) result['3years'].push(article);
         else if (yearsDiff < 7) result['5years'].push(article);
         else result['10years'].push(article);
     });
-    
+
     return result;
 }
 
@@ -154,8 +154,8 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
         activeTimeframes.forEach(tf => {
             result.push(...categorizedArticles[tf].map(a => ({ ...a, timeframe: tf })));
         });
-        return result.sort((a, b) => 
-            new Date(b.metadata?.publishedAt || b.publishedAt).getTime() - 
+        return result.sort((a, b) =>
+            new Date(b.metadata?.publishedAt || b.publishedAt).getTime() -
             new Date(a.metadata?.publishedAt || a.publishedAt).getTime()
         );
     }, [categorizedArticles, activeTimeframes]);
@@ -163,7 +163,7 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
     // Handle search
     const handleSearch = useCallback(async () => {
         if (!searchQuery.trim()) return;
-        
+
         setIsSearching(true);
         try {
             const results = await getRelatedContext(searchQuery);
@@ -231,10 +231,10 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
     }, [categorizedArticles]);
 
     return (
-        <div className={`${isFullscreen ? 'fixed inset-0 z-50 bg-[#1c1c1c]' : 'relative w-full bg-[#1c1c1c] border-2 border-[#3a3a3a]'} overflow-hidden transition-all duration-300`}>
-            
+        <div className={`${isFullscreen ? 'fixed inset-0 z-50 bg-[#F5F5F5] dark:bg-[#1c1c1c]' : 'relative w-full bg-[#F5F5F5] dark:bg-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a]'} overflow-hidden transition-all duration-300`}>
+
             {/* Header Controls */}
-            <div className="absolute top-0 left-0 right-0 z-20 p-4 bg-gradient-to-b from-[#1c1c1c] via-[#1c1c1c]/90 to-transparent">
+            <div className="absolute top-0 left-0 right-0 z-20 p-4 bg-gradient-to-b from-[#F5F5F5] dark:from-[#1c1c1c] via-[#F5F5F5]/90 dark:via-[#1c1c1c]/90 to-transparent">
                 <div className="flex items-start justify-between gap-4">
                     {/* Left: Search & Timeframe Filters */}
                     <div className="flex-1">
@@ -249,7 +249,7 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                                         placeholder="Search timeline (e.g., AI, climate)..."
-                                        className="w-full bg-[#2a2a2a] border-2 border-[#3a3a3a] focus:border-[#00dc82] text-white text-sm pl-10 pr-4 py-2 outline-none transition-colors"
+                                        className="w-full bg-white dark:bg-[#2a2a2a] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] focus:border-[#00dc82] text-[#1c1c1c] dark:text-white text-sm pl-10 pr-4 py-2 outline-none transition-colors"
                                     />
                                 </div>
                                 <button
@@ -262,7 +262,7 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
                                 {hasSearched && (
                                     <button
                                         onClick={clearSearch}
-                                        className="px-3 py-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white border-2 border-[#3a3a3a] text-sm transition-colors"
+                                        className="px-3 py-2 bg-white dark:bg-[#2a2a2a] hover:bg-[#E7E7E7] dark:hover:bg-[#3a3a3a] text-[#1c1c1c] dark:text-white border-2 border-[#E7E7E7] dark:border-[#3a3a3a] text-sm transition-colors"
                                     >
                                         Clear
                                     </button>
@@ -279,21 +279,19 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
                                 <button
                                     key={key}
                                     onClick={() => toggleTimeframe(key)}
-                                    className={`flex items-center gap-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-all border-2 ${
-                                        activeTimeframes.has(key)
+                                    className={`flex items-center gap-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-all border-2 ${activeTimeframes.has(key)
                                             ? 'text-[#1c1c1c] border-transparent'
-                                            : 'bg-transparent text-[#71767A] border-[#3a3a3a] hover:border-[#71767A]'
-                                    }`}
-                                    style={activeTimeframes.has(key) ? { 
+                                            : 'bg-transparent text-[#71767A] border-[#E7E7E7] dark:border-[#3a3a3a] hover:border-[#71767A]'
+                                        }`}
+                                    style={activeTimeframes.has(key) ? {
                                         backgroundColor: tf.color,
-                                        borderColor: tf.color 
+                                        borderColor: tf.color
                                     } : {}}
                                 >
                                     {tf.icon}
                                     {tf.label}
-                                    <span className={`px-1.5 py-0.5 text-[10px] ${
-                                        activeTimeframes.has(key) ? 'bg-[#1c1c1c]/20' : 'bg-[#3a3a3a]'
-                                    }`}>
+                                    <span className={`px-1.5 py-0.5 text-[10px] ${activeTimeframes.has(key) ? 'bg-[#1c1c1c]/20' : 'bg-[#E7E7E7] dark:bg-[#3a3a3a]'
+                                        }`}>
                                         {timeframeCounts[key]}
                                     </span>
                                 </button>
@@ -303,9 +301,9 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
 
                     {/* Right: View Controls */}
                     <div className="flex gap-2">
-                        <button 
-                            onClick={() => setIsFullscreen(!isFullscreen)} 
-                            className="p-2 bg-[#2a2a2a] hover:bg-[#00dc82] text-white hover:text-[#1c1c1c] border-2 border-[#3a3a3a] hover:border-[#00dc82] transition-all" 
+                        <button
+                            onClick={() => setIsFullscreen(!isFullscreen)}
+                            className="p-2 bg-white dark:bg-[#2a2a2a] hover:bg-[#00dc82] text-[#1c1c1c] dark:text-white hover:text-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] hover:border-[#00dc82] transition-all"
                             title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
                         >
                             {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
@@ -315,13 +313,13 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
             </div>
 
             {/* Legend */}
-            <div className="absolute bottom-4 left-4 z-20 flex gap-3 bg-[#2a2a2a]/90 backdrop-blur-sm border border-[#3a3a3a] px-4 py-2">
+            <div className="absolute bottom-4 left-4 z-20 flex gap-3 bg-white/90 dark:bg-[#2a2a2a]/90 backdrop-blur-sm border border-[#E7E7E7] dark:border-[#3a3a3a] px-4 py-2 shadow-sm">
                 <span className="text-[10px] text-[#71767A] uppercase tracking-wider">Legend:</span>
                 {(Object.entries(TIMEFRAMES) as [TimeframeKey, typeof TIMEFRAMES[TimeframeKey]][]).map(([key, tf]) => (
                     activeTimeframes.has(key) && (
                         <div key={key} className="flex items-center gap-1.5">
                             <div className="w-3 h-3" style={{ backgroundColor: tf.color }} />
-                            <span className="text-[10px] text-white uppercase tracking-wider">{tf.label}</span>
+                            <span className="text-[10px] text-[#1c1c1c] dark:text-white uppercase tracking-wider">{tf.label}</span>
                         </div>
                     )
                 ))}
@@ -339,33 +337,33 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
                     <>
                         {/* Zoom Controls */}
                         <div className="absolute bottom-4 right-4 z-20 flex gap-2">
-                            <button onClick={() => zoomIn()} className="p-2 bg-[#2a2a2a] hover:bg-[#00dc82] text-white hover:text-[#1c1c1c] border-2 border-[#3a3a3a] hover:border-[#00dc82] transition-all" title="Zoom In"><ZoomIn size={16} /></button>
-                            <button onClick={() => zoomOut()} className="p-2 bg-[#2a2a2a] hover:bg-[#00dc82] text-white hover:text-[#1c1c1c] border-2 border-[#3a3a3a] hover:border-[#00dc82] transition-all" title="Zoom Out"><ZoomOut size={16} /></button>
-                            <button onClick={() => resetTransform()} className="p-2 bg-[#2a2a2a] hover:bg-[#00dc82] text-white hover:text-[#1c1c1c] border-2 border-[#3a3a3a] hover:border-[#00dc82] transition-all" title="Reset View"><RotateCcw size={16} /></button>
+                            <button onClick={() => zoomIn()} className="p-2 bg-white dark:bg-[#2a2a2a] hover:bg-[#00dc82] text-[#1c1c1c] dark:text-white hover:text-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] hover:border-[#00dc82] transition-all" title="Zoom In"><ZoomIn size={16} /></button>
+                            <button onClick={() => zoomOut()} className="p-2 bg-white dark:bg-[#2a2a2a] hover:bg-[#00dc82] text-[#1c1c1c] dark:text-white hover:text-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] hover:border-[#00dc82] transition-all" title="Zoom Out"><ZoomOut size={16} /></button>
+                            <button onClick={() => resetTransform()} className="p-2 bg-white dark:bg-[#2a2a2a] hover:bg-[#00dc82] text-[#1c1c1c] dark:text-white hover:text-[#1c1c1c] border-2 border-[#E7E7E7] dark:border-[#3a3a3a] hover:border-[#00dc82] transition-all" title="Reset View"><RotateCcw size={16} /></button>
                         </div>
 
                         <TransformComponent wrapperClass="!w-full !h-full" contentClass="!w-full !h-full">
-                            <div 
-                                className="relative" 
+                            <div
+                                className="relative"
                                 style={{ width: canvasWidth, height: canvasHeight, paddingTop: showTimelineSearch ? 100 : 80 }}
                             >
                                 {/* Empty State */}
                                 {nodes.length === 0 && !isSearching && (
                                     <div className="absolute inset-0 flex items-center justify-center">
                                         <div className="text-center">
-                                            <History size={48} className="mx-auto mb-4 text-[#3a3a3a]" />
+                                            <History size={48} className="mx-auto mb-4 text-[#71767A] dark:text-[#3a3a3a]" />
                                             <p className="text-[#71767A] text-lg uppercase tracking-wider">No articles in selected timeframes</p>
-                                            <p className="text-[#3a3a3a] text-sm mt-2">Try selecting different timeframes above</p>
+                                            <p className="text-[#71767A] dark:text-[#3a3a3a] text-sm mt-2">Try selecting different timeframes above</p>
                                         </div>
                                     </div>
                                 )}
 
                                 {/* Loading State */}
                                 {isSearching && (
-                                    <div className="absolute inset-0 flex items-center justify-center bg-[#1c1c1c]/80 z-30">
+                                    <div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-[#1c1c1c]/80 z-30">
                                         <div className="text-center">
                                             <Loader2 size={48} className="mx-auto mb-4 text-[#00dc82] animate-spin" />
-                                            <p className="text-white text-lg uppercase tracking-wider">Searching Timeline...</p>
+                                            <p className="text-[#1c1c1c] dark:text-white text-lg uppercase tracking-wider">Searching Timeline...</p>
                                             <p className="text-[#71767A] text-sm mt-2">Including historical context</p>
                                         </div>
                                     </div>
@@ -444,28 +442,28 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
                                             />
                                         );
                                     })}
-                                    
+
                                     {/* Date Markers on Timeline */}
                                     {nodes.map((node, i) => {
                                         const tf = TIMEFRAMES[node.timeframe];
                                         return (
                                             <g key={`date-${i}`}>
-                                                <circle 
-                                                    cx={node.x} 
-                                                    cy={centerY} 
-                                                    r="5" 
+                                                <circle
+                                                    cx={node.x}
+                                                    cy={centerY}
+                                                    r="5"
                                                     fill={tf.color}
                                                     className="cursor-pointer"
                                                 />
-                                                <text 
-                                                    x={node.x} 
-                                                    y={centerY + (node.y > centerY ? -10 : 25)} 
-                                                    textAnchor="middle" 
+                                                <text
+                                                    x={node.x}
+                                                    y={centerY + (node.y > centerY ? -10 : 25)}
+                                                    textAnchor="middle"
                                                     fill={tf.color}
                                                     fontSize="9"
                                                     className="font-mono uppercase"
                                                 >
-                                                    {node.isHistorical 
+                                                    {node.isHistorical
                                                         ? format(new Date(node.date), 'yyyy')
                                                         : format(new Date(node.date), 'MMM d')
                                                     }
@@ -505,9 +503,9 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
                                                 >
                                                     {/* Node Icon */}
                                                     <div className="relative z-10 cursor-pointer flex flex-col items-center">
-                                                        <div 
+                                                        <div
                                                             className="w-14 h-14 border-2 group-hover:scale-110 transition-all flex items-center justify-center shadow-lg"
-                                                            style={{ 
+                                                            style={{
                                                                 backgroundColor: tf.bgColor,
                                                                 borderColor: tf.color,
                                                                 boxShadow: `0 0 20px ${tf.color}40`
@@ -519,33 +517,33 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
                                                                 <FileText size={22} style={{ color: tf.color }} />
                                                             )}
                                                         </div>
-                                                        
+
                                                         {/* Title Label */}
                                                         <div className="mt-3 w-44 text-center">
-                                                            <p 
+                                                            <p
                                                                 className="text-[10px] font-mono mb-0.5 uppercase tracking-wider"
                                                                 style={{ color: tf.color }}
                                                             >
-                                                                {node.isHistorical 
+                                                                {node.isHistorical
                                                                     ? format(new Date(node.date), 'yyyy')
                                                                     : formatDistanceToNow(new Date(node.date), { addSuffix: true })
                                                                 }
                                                             </p>
-                                                            <p className="text-xs font-bold text-white line-clamp-2 leading-tight group-hover:text-[#00dc82] transition-colors bg-[#2a2a2a] px-2 py-1.5 border border-[#3a3a3a]">
+                                                            <p className="text-xs font-bold text-[#1c1c1c] dark:text-white line-clamp-2 leading-tight group-hover:text-[#00dc82] transition-colors bg-white dark:bg-[#2a2a2a] px-2 py-1.5 border border-[#E7E7E7] dark:border-[#3a3a3a] shadow-sm">
                                                                 {node.title}
                                                             </p>
                                                         </div>
                                                     </div>
 
                                                     {/* Expanded Details Card */}
-                                                    <div 
-                                                        className={`absolute left-1/2 -translate-x-1/2 w-80 p-5 bg-[#2a2a2a] border-2 shadow-2xl transition-all duration-300 z-30 
+                                                    <div
+                                                        className={`absolute left-1/2 -translate-x-1/2 w-80 p-5 bg-white dark:bg-[#2a2a2a] border-2 shadow-2xl transition-all duration-300 z-30 
                                                             ${i % 2 === 0 ? 'top-full mt-4' : 'bottom-full mb-36'} 
                                                             opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto scale-95 group-hover:scale-100 origin-center`}
                                                         style={{ borderColor: tf.color }}
                                                     >
                                                         {/* Timeframe Badge */}
-                                                        <div 
+                                                        <div
                                                             className="inline-flex items-center gap-1.5 px-2 py-1 text-[10px] font-bold uppercase tracking-wider mb-3"
                                                             style={{ backgroundColor: tf.bgColor, color: tf.color }}
                                                         >
@@ -554,7 +552,7 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
                                                             {node.isHistorical && ' • Historical'}
                                                         </div>
 
-                                                        <div 
+                                                        <div
                                                             className="text-xs font-mono mb-2 flex items-center gap-2 uppercase tracking-wider"
                                                             style={{ color: tf.color }}
                                                         >
@@ -562,16 +560,16 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
                                                             {format(new Date(node.date), 'MMM d, yyyy')}
                                                         </div>
 
-                                                        <h4 className="text-sm font-bold text-white leading-snug mb-3">
+                                                        <h4 className="text-sm font-bold text-[#1c1c1c] dark:text-white leading-snug mb-3">
                                                             {node.title}
                                                         </h4>
 
-                                                        <div className="flex items-center justify-between text-xs text-[#71767A] border-t-2 border-[#3a3a3a] pt-3">
-                                                            <span className="font-bold text-white flex items-center gap-2 uppercase tracking-wider">
+                                                        <div className="flex items-center justify-between text-xs text-[#71767A] border-t-2 border-[#E7E7E7] dark:border-[#3a3a3a] pt-3">
+                                                            <span className="font-bold text-[#1c1c1c] dark:text-white flex items-center gap-2 uppercase tracking-wider">
                                                                 <span className="w-2 h-2" style={{ backgroundColor: tf.color }} />
                                                                 {node.source}
                                                             </span>
-                                                            <span 
+                                                            <span
                                                                 className="flex items-center gap-1 font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform"
                                                                 style={{ color: tf.color }}
                                                             >
@@ -592,11 +590,11 @@ export function GraphView({ articles, showTimelineSearch = false }: GraphViewPro
 
             {/* Stats Bar */}
             <div className="absolute top-4 right-20 z-20 flex gap-3">
-                <div className="bg-[#2a2a2a]/90 backdrop-blur-sm border border-[#3a3a3a] px-3 py-1.5 text-center">
-                    <p className="text-lg font-bold text-white">{nodes.length}</p>
+                <div className="bg-white/90 dark:bg-[#2a2a2a]/90 backdrop-blur-sm border border-[#E7E7E7] dark:border-[#3a3a3a] px-3 py-1.5 text-center shadow-sm">
+                    <p className="text-lg font-bold text-[#1c1c1c] dark:text-white">{nodes.length}</p>
                     <p className="text-[9px] text-[#71767A] uppercase tracking-wider">Articles</p>
                 </div>
-                <div className="bg-[#2a2a2a]/90 backdrop-blur-sm border border-[#3a3a3a] px-3 py-1.5 text-center">
+                <div className="bg-white/90 dark:bg-[#2a2a2a]/90 backdrop-blur-sm border border-[#E7E7E7] dark:border-[#3a3a3a] px-3 py-1.5 text-center shadow-sm">
                     <p className="text-lg font-bold text-[#00dc82]">{activeTimeframes.size}</p>
                     <p className="text-[9px] text-[#71767A] uppercase tracking-wider">Timeframes</p>
                 </div>
